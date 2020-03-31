@@ -49,4 +49,20 @@ module.exports = (app, item) => {
                 res.status(500).end()
             })
     })
+    //update item
+    app.put("/item", async (req, res) => {
+        const itm = req.body
+        if ((itm.id === undefined) || (itm.id == null) || (!item.isValid(itm))) {
+            return res.status(400).end()
+        }
+        if (await item.dao.getById(itm.id) === undefined) {
+            return res.status(404).end()
+        }
+        item.dao.update(itm)
+            .then(res.status(200).end())
+            .catch(e => {
+                console.log(e)
+                res.status(500).end()
+            })
+    })
 }
