@@ -4,7 +4,7 @@ module.exports = class BaseDAO {
         this.tablename = tablename
     }
     delete(id) {
-        return this.db.query(`DELETE FROM ${this.tablename} WHERE id=$1`, [id])
+        return this.db.query(`DELETE FROM ${this.tablename} WHERE id=$1`, [ id ])
     }
     getById(id) {
         return new Promise((resolve, reject) =>

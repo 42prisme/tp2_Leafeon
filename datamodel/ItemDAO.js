@@ -18,15 +18,16 @@ module.exports = class ItemDAO extends BaseDAO{
                 .then( res => resolve(res.rows))
                 .catch(e => reject(e)))
     }
-    getById(p_id)
+    /*getById(p_id)
     {
-        return new Promise(((resolve, reject) => {
+        return new Promise((resolve, reject) => {
             this.db.query("SELECT * FROM item where id = $1",[p_id])
                 .then( res => resolve(res.rows))
                 .catch( e => reject(e))
-        }))
-    }
-    getListItems(p_id){
+        })
+    }*/
+    getListItems(p_id)
+    {
         return new Promise(((resolve, reject) => {
             this.db.query("SELECT * FROM item where list_id = $1",[p_id])
                 .then( res => resolve(res.rows))
@@ -34,5 +35,5 @@ module.exports = class ItemDAO extends BaseDAO{
         }))
     }
     udpate(id) {}
-    delete(id){}
+
 };
