@@ -1,0 +1,40 @@
+<nav>
+    <div class="nav-wrapper green">
+        <a id="page_title" href="#" class="brand-logo">Listes de courses</a>
+        <ul id="nav-mobile" class="right hide-on-med-and-down">
+            <li><a id="nwlist" class="waves-effect modal-trigger" href="#modalNwList">Nouvelle liste</a></li>
+            <li><a id="history" class="waves-effect" type="submit" onclick="indexController.display_odl()">Historique</a></li>
+        </ul>
+    </div>
+</nav>
+<!-- lsit title -->
+<p id="list_du_date"></p>
+
+<!-- lsit -->
+<div id="title" class="container"></div>
+<table class="container">
+    <thead id="newlist">
+
+    </thead>
+    <tbody id="list_content">
+
+    </tbody>
+    <tfoot id="list_add">
+
+    </tfoot>
+</table>
+
+<!-- Modal Nw list -->
+<div id="modalNwList" class="modal">
+    <div class="modal-content">
+        <input id="list_name" type="text" placeholder="list name">
+        <input type="submit" value="new list" class="modal-close" onclick="indexController.createNewList()">
+    </div>
+</div>
+
+<!-- Modal Nw list -->
+<div id="View_arch_list" class="modal">
+    <div id="itemLst" class="modal-content">
+        <p>the old list</p>
+    </div>
+</div>

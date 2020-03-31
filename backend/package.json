@@ -1,0 +1,16 @@
+{
+  "name": "api",
+  "version": "1.0.0",
+  "description": "",
+  "main": "main.js",
+  "dependencies": {
+    "pg": "^7.18.2",
+    "body-parser": "^1.19.0",
+    "cors": "^2.8.5",
+    "morgan": "^1.9.1",
+    "express": "^4.17.1"
+  },
+  "scripts": {
+    "run": "node main.js"
+  }
+}
