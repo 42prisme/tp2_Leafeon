@@ -1,10 +1,16 @@
-const List = require('./ListeCourse')
+const List = require('./ListeCourse');
+const Item = require('./Item')
 
-module.exports = (list) => {
+module.exports = (list, item) => {
     return new Promise(async (resolve, reject) => {
         try {
-            await list.dao.db.query("CREATE TABLE exemple(id SERIAL PRIMARY KEY, exemple TEXT NOT NULL)")
+            await list.dao.db.query("DROP TABLE item")
+            await list.dao.db.query("DROP TABLE liste")
+            await list.dao.db.query("CREATE TABLE liste(id BIGINT UNIQUE, name TEXT UNIQUE, archived BOOL)")
             // INSERTs
+            for (let i = 0; i < 2; i++) {
+                await list.dao.insert(new List("name"+i))
+            }
         } catch (e) {
             if (e.code === "42P07") { // TABLE ALREADY EXISTS https://www.postgresql.org/docs/8.2/errcodes-appendix.html
                 resolve()
@@ -13,5 +19,22 @@ module.exports = (list) => {
             }
             return
         }
+        try {
+            //await list.dao.db.query("DROP TABLE item")
+            await item.dao.db.query("CREATE TABLE item(id BIGINT UNIQUE, list_id BIGINT, name TEXT, quantity INT, valid BOOL)")
+            // INSERTs
+            for (let i = 0; i < 2; i++) {
+                await item.dao.insert(new Item(i, i, "name"+i, i+4))
+            }
+        } catch (e) {
+            if (e.code === "42P07") { // TABLE ALREADY EXISTS https://www.postgresql.org/docs/8.2/errcodes-appendix.html
+                resolve()
+            } else {
+                reject(e)
+            }
+            return
+        }
+    }).catch( e => {
+        console.log(e)
     })
 }

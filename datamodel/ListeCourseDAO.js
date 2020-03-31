@@ -1,10 +1,12 @@
+const BaseDAO = require('./basedao')
 
-
-module.exports = class ListeCourseDAO {
+module.exports = class ListeCourseDAO extends BaseDAO{
     constructor(db)
     {
-        this.db = db
-        this.creat_table()
+        super(db, "liste")
+        //this.insert_test()
+        //this.db = db
+        //this.creat_table()
     }
     creat_table()
     {
@@ -20,6 +22,10 @@ module.exports = class ListeCourseDAO {
     insert(listeCourse)
     {
         return this.db.query("INSERT INTO liste(id, name, archived) VALUES($1, $2, $3)", [listeCourse.id, listeCourse.name, listeCourse.archived])
+    }
+    insert_test()
+    {
+        return this.db.query("INSERT INTO liste(id, name, archived) VALUES(1, 'voiture', true)")
     }
     getAll() {
         return new Promise((resolve, reject) =>

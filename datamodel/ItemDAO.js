@@ -1,15 +1,38 @@
-module.exports = class ItemDAO {
+const BaseDAO = require('./basedao')
+
+module.exports = class ItemDAO extends BaseDAO{
     constructor(db) {
-        this.db = db
+        super(db, "item")
     }
-    insert(item)
+    insert(itm)
     {
-        return this.db.query("INSERT INTO item(id, list_id, name, quantity, valid) VALUES( $1, $2 $3, $4, $5, $6,)", [item.id, item.list_id, item.name, item.quantity, item.valid])
+        return new Promise((resolve, reject) =>
+            this.db.query("INSERT INTO item(id, list_id, name, quantity, valid) VALUES( $1, $2, $3, $4, false)", [itm.id, itm.list_id, itm.name, itm.quantity])
+                .then( res => resolve(res.rows))
+                .catch(e => reject(e)))
     }
-    getAll(list) {
-        return this.db.query("SELECT * FROM item")
-    } //get all items from list
-    get(id) {}
+    getAll()
+    {
+        return new Promise((resolve, reject) =>
+            this.db.query("SELECT * FROM item")
+                .then( res => resolve(res.rows))
+                .catch(e => reject(e)))
+    }
+    getById(p_id)
+    {
+        return new Promise(((resolve, reject) => {
+            this.db.query("SELECT * FROM item where id = $1",[p_id])
+                .then( res => resolve(res.rows))
+                .catch( e => reject(e))
+        }))
+    }
+    getListItems(p_id){
+        return new Promise(((resolve, reject) => {
+            this.db.query("SELECT * FROM item where list_id = $1",[p_id])
+                .then( res => resolve(res.rows))
+                .catch( e => reject(e))
+        }))
+    }
     udpate(id) {}
     delete(id){}
 };
