@@ -1,8 +1,8 @@
 module.exports = class ListCourse {
-    constructor(name)
+    constructor(id, name)
     {
-        this.id = Date.now();
-        this.nom = name;
+        this.id = id;
+        this.name = name;
         this.archived = false;
     }
  };

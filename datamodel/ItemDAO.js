@@ -20,11 +20,11 @@ module.exports = class ItemDAO extends BaseDAO{
     }
     getListItems(p_id)
     {
-        return new Promise(((resolve, reject) => {
+        return new Promise((resolve, reject) => {
             this.db.query("SELECT * FROM item where list_id = $1",[p_id])
                 .then( res => resolve(res.rows))
                 .catch( e => reject(e))
-        }))
+        })
     }
     update(itm)
     {
