@@ -1,6 +1,16 @@
 module.exports = (app, list) => {
+    //get lists
     app.get("/list", async  (req, res) => {
         res.json(await list.dao.getAll())
+    })
+    //get current list
+    app.get("/list/current", async  (req, res) => {
+        console.log("current ---")
+        res.json(await list.dao.getCurrent())
+    })
+    //get archived list
+    app.get("/list/archived", async  (req, res) => {
+        res.json(await list.dao.getArchived())
     })
     //add list
     app.post("/list", async (req ,res) => {

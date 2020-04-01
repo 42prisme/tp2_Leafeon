@@ -1,13 +1,63 @@
 class Model {
     constructor() {
-        this.curentKey = "nv"
-        this.oldKey = "old"
+        this.listapi = new Listapi()
+        this.itemapi = new Itemapi()
+        this.getArchivedLists()
+        console.log("archived list: ",this.archived.lists)
+    }
+    //  --- get ---
+    //get current list name
+    getCurrentName(){
+        return this.listapi.getCurrent().name
+    }
+    //get the items in the current list
+    getCurrentItems(){
+        this.current = {'id':'', 'name':'', 'items':[]}
+        let curID = this.listapi.getCurrent()
+        console.log("cur list id : ",curID)
+        this.current.items = this.listapi.get(curID)
+        return this.current.items
+    }
+    //get archived lists
+    getArchivedLists(){
+        this.archived = {'lists': [] }
+        let curID = this.listapi.getArchived()
+        console.log("cur list id : ",curID)
+        this.archived.lists = this.listapi.get(curID)
+        return this.archived.lists
+    }
+    //get items from list
+    getList(p_id){
+        return this.listapi.get(p_id)
+    }
+    // --- NEW ---
+    //add a new list
+    insertList(p_name){
+        this.currentList = new List(p_name)
+        this.listapi.insert(this.currentList)
+        return this.currentList
+    }
+    //add a new item
+    insertItem(p_quant, p_name, p_Lid)
+    {
+        const itm = new Item(p_quant, p_name, p_Lid)
+        this.itemapi.insert(itm)
+            .then(console.log("item successfully inserted"))
+            .catch( e => console.log(e) )
+        this.getCurrentItems()
+    }
+    /*constructor() {
+        this.listapi = new Listapi()
+        this.itemapi = new Itemapi()
         this.load_curent()
         this.load_old()
         if (this.curent.length === 0) {  }   //creat a list
     }
-    getAllCurentItems() {
-        return this.curent.items
+    getAllCurrentItems() {
+        this.curent.items = []
+        let curID = this.listapi.getCurrent()
+        console.log("cur list id : ",curID)
+        this.curent.items = this.listapi.get(curID)
     }
     getAllOldItems() {
         console.log("old")
@@ -27,6 +77,7 @@ class Model {
         this.save_curent()
     }
     load_curent() {
+
         this.curent = {'id':'', 'name':'', 'items':[]}
         let datas = JSON.parse(localStorage.getItem(this.curentKey), reviver)
         if (datas !== null) {
@@ -113,5 +164,5 @@ class Model {
             this.load_curent()
             this.load_old()
         }
-    }
+    }*/
 }

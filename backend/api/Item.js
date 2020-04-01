@@ -6,7 +6,7 @@ module.exports = (app, item) => {
         res.json(await item.dao.getAll())
     })
     //get item by id
-    app.get("/item/:id", async (req ,res) => {
+    app.get("/item/id/:id", async (req ,res) => {
         try {
             const itm = await item.dao.getById(req.params.id)
             if (itm === undefined) return res.status(404).end()
@@ -16,7 +16,8 @@ module.exports = (app, item) => {
         }
     })
     //get item by list
-    app.get("/list/:id", async (req ,res) => {
+    app.get("/list/id/:id", async (req ,res) => {
+        console.log("ID ---")
         try{
             const itmList = await item.dao.getListItems(req.params.id)
             if (itmList === undefined) return res.status(404).end()
@@ -37,7 +38,7 @@ module.exports = (app, item) => {
             })
     })
     //delete Item
-    app.delete("/item/:id", async (req, res) => {
+    app.delete("/item/id/:id", async (req, res) => {
         const itm = await item.dao.getById(req.params.id)
         if (itm === undefined) {
             return res.status(404).end()

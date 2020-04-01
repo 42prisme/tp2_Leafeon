@@ -1,28 +1,28 @@
-const serviceBaseUrl = "http://localhost:3333/item";
+const ServiceBaseUrl = "http://localhost:3333/item";
 
 class Itemapi {
     getAll()
     {
-        return fetchJSON(serviceBaseUrl)
+        return fetchJSON(ServiceBaseUrl)
     }
     get(p_id)
     {
-        return fetchJSON(`${serviceBaseUrl}/${p_id}`)
+        return fetchJSON(`${ServiceBaseUrl}/id/${p_id}`)
     }
     delete(p_id)
     {
-        return fetch(`${serviceBaseUrl}/${p_id}`, { method: 'DELETE'})
+        return fetch(`${ServiceBaseUrl}/id/${p_id}`, { method: 'DELETE'})
     }
     insert(p_item)
     {
-        return fetch(serviceBaseUrl, {
+        return fetch(ServiceBaseUrl, {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify(p_item)
         })
     }
     update(p_item) {
-        return fetch(serviceBaseUrl, {
+        return fetch(ServiceBaseUrl, {
             method: 'PUT',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify(p_item)
