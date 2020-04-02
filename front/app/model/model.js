@@ -2,8 +2,8 @@ class Model {
     constructor() {
         this.listapi = new Listapi()
         this.itemapi = new Itemapi()
-        this.getArchivedLists()
-        console.log("archived list: ",this.archived.lists)
+        //this.getArchivedLists()
+        //console.log("archived list: ",this.archived.lists)
     }
     //  --- get ---
     //get current list name
@@ -11,12 +11,30 @@ class Model {
         return this.listapi.getCurrent().name
     }
     //get the items in the current list
-    getCurrentItems(){
+    async getCurrentItems(){
+        //get current id
         this.current = {'id':'', 'name':'', 'items':[]}
-        let curID = this.listapi.getCurrent()
+        let curID = await this.listapi.getCurrent()
         console.log("cur list id : ",curID)
-        this.current.items = this.listapi.get(curID)
+        for (let list of curID)
+        {
+            console.log("c list id",list.id)
+            this.current.items += JSON.parse(await this.listapi.get(list.id))
+            console.log(this.current.items)
+        }
+        console.log("items list",this.current.items)
+        //this.current.items = await this.listapi.get(curID.id)
         return this.current.items
+    }
+    //archive current lists when adding a new one
+    async archiveList()
+    {
+        let currentId = await this.listapi.getCurrent()
+        for (let id of currentId)
+        {
+            await this.listapi.archive(id)
+            console.log("archive: ",id)
+        }
     }
     //get archived lists
     getArchivedLists(){
@@ -32,19 +50,19 @@ class Model {
     }
     // --- NEW ---
     //add a new list
-    insertList(p_name){
+    async insertList(p_name){
         this.currentList = new List(p_name)
-        this.listapi.insert(this.currentList)
+        await this.listapi.insert(this.currentList)
+        console.log("cur_lst_id",this.currentList.id)
         return this.currentList
     }
     //add a new item
-    insertItem(p_quant, p_name, p_Lid)
+    async insertItem(p_quant, p_name, p_Lid)
     {
         const itm = new Item(p_quant, p_name, p_Lid)
-        this.itemapi.insert(itm)
-            .then(console.log("item successfully inserted"))
-            .catch( e => console.log(e) )
-        this.getCurrentItems()
+        console.log("itm: ",itm)
+        await this.itemapi.insert(itm)
+            .then(r =>  this.getCurrentItems())
     }
     /*constructor() {
         this.listapi = new Listapi()

@@ -6,7 +6,7 @@ module.exports = class itemService {
     }
     isValid(item)
     {
-        console.log(item.id)
+        console.log("valid? ",item.id)
         if (item.id === undefined || item.id === null || isNaN(item.id)) return false
         console.log(item.list_id)
         if (item.list_id === undefined || item.list_id === null || isNaN(item.list_id)) return false
@@ -15,6 +15,7 @@ module.exports = class itemService {
         if (item.name === "" || item.name === undefined || item.name === null) return false
         console.log(item.quantity)
         if (isNaN(item.quantity)) return false
+        console.log("isValid!!")
         return true
     }
 }

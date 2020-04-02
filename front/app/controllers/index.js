@@ -1,7 +1,6 @@
 class IndexController extends BaseController{
     constructor() {
         super()
-        this.lst_id = 0
         //archiving old current lists
         /*if (this.model.current.name !== "")
         {
@@ -23,10 +22,9 @@ class IndexController extends BaseController{
             '        </td>\n' +
             '    </tr>'
     }
-    displayCurrentList() {
-        const items = this.model.getCurrentItems()
-
-        console.log("items", items)
+    async displayCurrentList() {
+        const items = this.model.current.items
+        console.log("items2", items)
         let html = ""
         let valid = ""
         for(let item of items) {
@@ -74,10 +72,10 @@ class IndexController extends BaseController{
         document.getElementById("title").innerHTML = ''
 
     }
-    createNewList()
+    async createNewList()
     {
         document.getElementById("list_content").innerHTML = ""
-        console.log("crent name: ",this.model.getCurrentName())
+        console.log("creat name: undefined :",this.model.getCurrentName())
         if (this.model.getCurrentName() !== undefined)
         {
             this.archivelist()
@@ -86,7 +84,8 @@ class IndexController extends BaseController{
         const listname = document.getElementById("list_name").value
         console.log("get lst name : ",listname)
         document.getElementById("list_name").value = ""
-        this.lst_id = this.model.insertList(listname).id
+        this.lst = await this.model.insertList(listname)
+        console.log("insert list ,id :", this.lst)
         //display title
         document.getElementById("title").innerHTML = `<h5>Liste : ${listname}</h5>`
         this.displayInputmethod();
@@ -115,7 +114,7 @@ class IndexController extends BaseController{
             }
         }
     }
-    addItem(){
+    async addItem(){
         const quant = $("#quant").value
         const item = $("#item").value
         if (quant === 0 || quant === "" || item === "")
@@ -123,15 +122,19 @@ class IndexController extends BaseController{
             M.toast({html:'les champs doivent etre renseigner'})
             return
         }
-        if (this.lst_id === 0)
+        if (this.lst.id === 0)
         {
             M.toast({html:'liste inexistante'})
             return
         }
-        this.model.insertItem(quant, item, this.lst_id)
+        console.log("lst.id : ",this.lst.id)
+        await this.model.insertItem(quant, item, this.lst.id)
+            .then(r => this.displayCurrentList())
+            .catch( e => console.log(e))
+        console.log("fini")
         document.getElementById("quant").value = ""
         document.getElementById("item").value = ""
-        this.displayCurrentList()
+        //this.displayCurrentList()
     }
     validate(p_id)
     {

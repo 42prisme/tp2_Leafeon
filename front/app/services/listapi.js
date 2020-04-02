@@ -5,28 +5,36 @@ class Listapi {
     {
         return fetchJSON(serviceBaseUrl)
     }
-    get(p_id)//get all items from list
+    async get(p_id)//get all items from list
     {
-        return fetchJSON(`${serviceBaseUrl}/id/${p_id}`)
+        return await fetchJSON(`${serviceBaseUrl}/id/${p_id}`)
     }
-    getCurrent()
+    async getCurrent()
     {
-        return fetchJSON(`${serviceBaseUrl}/current`)
+        return await fetchJSON(`${serviceBaseUrl}/current`)
     }
-    getArchived()
+    async getArchived()
     {
-        return fetchJSON(`${serviceBaseUrl}/archived`)
+        return await fetchJSON(`${serviceBaseUrl}/archived`)
     }
-    delete(p_id)
+    async delete(p_id)
     {
-        return fetch(`${serviceBaseUrl}/${p_id}`, { method: 'DELETE'})
+        return await fetch(`${serviceBaseUrl}/${p_id}`, { method: 'DELETE'})
     }
-    insert(p_list)
+    async insert(p_list)
     {
-        return fetch(serviceBaseUrl, {
+        return await fetch(serviceBaseUrl, {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify(p_list)
+        })
+    }
+    async archive(p_id)
+    {
+        return await  fetch(`serviceBaseUrl/archive`, {
+            method: 'PUT',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify(p_id)
         })
     }
 }

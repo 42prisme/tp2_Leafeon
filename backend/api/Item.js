@@ -21,6 +21,7 @@ module.exports = (app, item) => {
         try{
             const itmList = await item.dao.getListItems(req.params.id)
             if (itmList === undefined) return res.status(404).end()
+            console.log(res.json(itmList))
             return  res.json(itmList)
         }catch (e) {
             res.status(400).end()
@@ -29,6 +30,7 @@ module.exports = (app, item) => {
     //insert item
     app.post("/item",(req ,res) => {
         const itm = req.body
+        console.log(itm)
         if (!item.isValid(itm))return res.status(400).end()
         item.dao.insert(itm)
             .then(res.status(200).end())

@@ -6,6 +6,7 @@ module.exports = (list, item) => {
         try {
             await list.dao.db.query("DROP TABLE item")
             await list.dao.db.query("DROP TABLE list")
+            console.log("create list table")
             await list.dao.db.query("CREATE TABLE list(id BIGINT UNIQUE, name TEXT UNIQUE, archived BOOL)")
             // INSERTs
             for (let i = 0; i < 2; i++) {
