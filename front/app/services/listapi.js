@@ -5,13 +5,13 @@ class Listapi {
     {
         return fetchJSON(serviceBaseUrl)
     }
-    async get(p_id)//get all items from list
+    get(p_id)//get all items from list
     {
-        return await fetchJSON(`${serviceBaseUrl}/id/${p_id}`)
+        return fetchJSON(`${serviceBaseUrl}/id/${p_id}`)
     }
-    async getCurrent()
+    getCurrent()
     {
-        return await fetchJSON(`${serviceBaseUrl}/current`)
+        return fetchJSON(`${serviceBaseUrl}/current`)
     }
     async getArchived()
     {

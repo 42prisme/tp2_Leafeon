@@ -34,7 +34,7 @@ class IndexController extends BaseController{
             }else{
                 valid = "green"
             }
-            html += `<tr><td><a id="${item.id}" class="btn-floating btn-large waves-effect waves-light ${valid}" onclick="indexController.validate(${item.id})"><i class="material-icons">check</i></a></td><td>${item.quant}</td><td>${item.name}</td><td><a class="waves-effect waves-light btn red" onclick="indexController.model.delete_item(${item.id})">Delete</a></td></tr>`
+            html += `<tr><td><a id="${item.id}" class="btn-floating btn-large waves-effect waves-light ${valid}" onclick="indexController.validate(${item.id})"><i class="material-icons">check</i></a></td><td>${item.quantity}</td><td>${item.name}</td><td><a class="waves-effect waves-light btn red" onclick="indexController.model.delete_item(${item.id})">Delete</a></td></tr>`
         }
         document.getElementById("list_content").innerHTML = html
     }

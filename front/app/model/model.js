@@ -19,7 +19,7 @@ class Model {
         for (let list of curID)
         {
             console.log("c list id",list.id)
-            this.current.items += JSON.parse(await this.listapi.get(list.id))
+            this.current.items = await this.listapi.get(list.id)
             console.log(this.current.items)
         }
         console.log("items list",this.current.items)

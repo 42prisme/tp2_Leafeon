@@ -26,7 +26,7 @@ module.exports = (list, item) => {
             await item.dao.db.query("CREATE TABLE item(id BIGINT UNIQUE, list_id BIGINT, name TEXT, quantity INT, valid BOOL)")
             // INSERTs
             for (let i = 0; i < 2; i++) {
-                await item.dao.insert(new Item(i, i, "name"+i, i+4))
+                await item.dao.insert(new Item(i, 0, "name"+i, i+4))
             }
         } catch (e) {
             if (e.code === "42P07") { // TABLE ALREADY EXISTS https://www.postgresql.org/docs/8.2/errcodes-appendix.html
