@@ -1,7 +1,6 @@
 class IndexController extends BaseController{
     constructor() {
         super()
-        this.model = new Model()
         //archiving old current lists
         /*if (this.model.current.name !== "")
         {
@@ -23,13 +22,21 @@ class IndexController extends BaseController{
             '        </td>\n' +
             '    </tr>'
     }
-    async displayCurrentList() {
-        await this.model.getCurrentItems()
-        const items = this.model.current.items
-        console.log("items2", items)
+    displayCurrentList() {
+        this.model.getCurrentItems()
+        let listItems = this.model.current.items
+        console.log("items1",listItems.length)
+
+        /*
+
+        this.model.getCurrentItems()
+        console.log("items", this.model.current)
+        let itlList = this.model.current.items
         let html = ""
         let valid = ""
-        for(let item of items) {
+        console.log("items1", itlList.length)
+        console.log("items2", itlList)
+        for(let item of this.model.current.items) {
             console.log("item",item)
             if (item.valid === true)
             {
@@ -39,7 +46,7 @@ class IndexController extends BaseController{
             }
             html += `<tr><td><a id="${item.id}" class="btn-floating btn-large waves-effect waves-light ${valid}" onclick="indexController.validate(${item.id})"><i class="material-icons">check</i></a></td><td>${item.quantity}</td><td>${item.name}</td><td><a class="waves-effect waves-light btn red" onclick="indexController.model.delete_item(${item.id})">Delete</a></td></tr>`
         }
-        document.getElementById("list_content").innerHTML = html
+        document.getElementById("list_content").innerHTML = html*/
     }
     display_odl()
     {
@@ -125,10 +132,10 @@ class IndexController extends BaseController{
         }
     }
     addItem(){
-        const quant = $("#quant").value
+        const quantity = $("#quant").value
         const item = $("#item").value
         this.lst = this.model.currentList
-        if (quant === 0 || quant === "" || item === "") /// need to be more restrictive!!!
+        if (quantity === 0 || quantity === "" || item === "") /// need to be more restrictive!!!
         {
             M.toast({html:'les champs doivent etre renseigner'})
             return
@@ -139,9 +146,15 @@ class IndexController extends BaseController{
             return
         }
         console.log("lst.id : ",this.lst.id)
-        this.model.insertItem(quant, item, this.lst.id)
-            .then(() => {console.log("dispList"); this.displayCurrentList()})
-            .catch(e => console.log("insert item error: ",e));
+        this.model.insertItem(quantity, item, this.lst.id)
+            .then(res => {
+                if (res.status === 200){
+                    this.displayCurrentList()
+                }
+            })
+        //console.log("disp_list",status)
+            //.then(() => this.displayCurrentList())
+            //.catch(e => console.log("insert item error: ",e));
         document.getElementById("quant").value = "";
         document.getElementById("item").value = ""
     }

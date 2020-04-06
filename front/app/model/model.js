@@ -30,7 +30,7 @@ class Model {
                         }
                     })
                 }
-                console.log(this.current)
+                console.log("current items", this.current)
                 return this.current.items
             })
     }
@@ -69,11 +69,10 @@ class Model {
     insertItem(p_quantity, p_name, p_Lid)
     {
         const itm = new Item(p_quantity, p_name, p_Lid)
-        console.log("itm: ",itm)
-        this.itemapi.insert(itm)
-            //.then(() => {this.getCurrentItems()})
-    }
-    //validation system
+        console.log("itm: ", itm)
+        return this.itemapi.insert(itm)
+     }
+    // validation system
     validateItem(p_id)
     {
         for (let item of this.current.items)
