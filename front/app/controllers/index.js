@@ -10,7 +10,7 @@ class IndexController extends BaseController{
     displayInputmethod()
     {
         document.getElementById("list_add").innerHTML = '<tr>\n' +
-            '        <td style="width: 10%"><a class="waves-effect waves-light btn-small" onclick="indexController.archivelist()">Archiver</a></td>' +
+            '        <td style="width: 10%"><a class="waves-effect waves-light btn-small" onclick="indexController.archiveList()">Archiver</a></td>' +
             '       <td style="width: 10%">\n' +
             '            <input id="quant" type="number" >\n' +
             '        </td>\n' +
@@ -22,7 +22,7 @@ class IndexController extends BaseController{
             '        </td>\n' +
             '    </tr>'
     }
-    async displayCurrentList() {
+    displayCurrentList() {
         const items = this.model.current.items
         console.log("items2", items)
         let html = ""
@@ -62,29 +62,36 @@ class IndexController extends BaseController{
         this.model.delete_arch_list(p_id)
         this.display_odl()
     }
-    archivelist()
+    archiveList()
     {
-        this.model.archiver_curent()
-        this.displayCurrentList()
+        new Promise((resolve, reject) => {
+            this.model.archiveList().then(r => console.log(r))
+        }).catch(e => console.log(e))
         //remove input method
         document.getElementById("list_add").innerHTML = ''
         //remove title
         document.getElementById("title").innerHTML = ''
 
     }
-    async createNewList()
+    createNewList()
     {
         document.getElementById("list_content").innerHTML = ""
-        console.log("creat name: undefined :",this.model.getCurrentName())
+        console.log("creat name: undefined is good :",this.model.getCurrentName())
         if (this.model.getCurrentName() !== undefined)
         {
-            this.archivelist()
+            console.log("undefined problem if first list")
+            this.archiveList()
         }
         document.getElementById("page_title").innerText = "Listes de courses"
         const listname = document.getElementById("list_name").value
+        if (listname === "" || listname === null)
+        {
+            M.toast({html:'a girl has no name (SO6EO2 GOT)'})
+            return
+        }
         console.log("get lst name : ",listname)
         document.getElementById("list_name").value = ""
-        this.lst = await this.model.insertList(listname)
+        this.lst = this.model.insertList(listname)
         console.log("insert list ,id :", this.lst)
         //display title
         document.getElementById("title").innerHTML = `<h5>Liste : ${listname}</h5>`
@@ -114,27 +121,26 @@ class IndexController extends BaseController{
             }
         }
     }
-    async addItem(){
+    addItem(){
         const quant = $("#quant").value
         const item = $("#item").value
-        if (quant === 0 || quant === "" || item === "")
+        this.lst.id = this.model.currentList.id
+        if (quant === 0 || quant === "" || item === "") /// need to be more restrictive!!!
         {
             M.toast({html:'les champs doivent etre renseigner'})
             return
         }
-        if (this.lst.id === 0)
+        if (this.lst.id === undefined)
         {
             M.toast({html:'liste inexistante'})
             return
         }
         console.log("lst.id : ",this.lst.id)
-        await this.model.insertItem(quant, item, this.lst.id)
-            .then(r => this.displayCurrentList())
-            .catch( e => console.log(e))
-        console.log("fini")
+        this.model.insertItem(quant, item, this.lst.id)
+            .then(this.displayCurrentList())
+            .catch( e => console.log("insert item error: ",e))
         document.getElementById("quant").value = ""
         document.getElementById("item").value = ""
-        //this.displayCurrentList()
     }
     validate(p_id)
     {

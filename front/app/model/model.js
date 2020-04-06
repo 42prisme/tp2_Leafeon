@@ -8,32 +8,38 @@ class Model {
     //  --- get ---
     //get current list name
     getCurrentName(){
-        return this.listapi.getCurrent().name
+        let curNam = this.listapi.getCurrent().name
+        if (curNam !== undefined) return curNam
     }
     //get the items in the current list
-    async getCurrentItems(){
+    getCurrentItems(){
         //get current id
+        console.log("getcurrentitems")
         this.current = {'id':'', 'name':'', 'items':[]}
-        let curID = await this.listapi.getCurrent()
-        console.log("cur list id : ",curID)
+        this.listapi.getCurrent()
+            .then( res => this.makeList(res))
+    }
+    makeList(curID)
+    {
+        console.log(curID)
         for (let list of curID)
         {
             console.log("c list id",list.id)
-            this.current.items = await this.listapi.get(list.id)
+            this.current.items +=  this.listapi.get(list.id)
             console.log(this.current.items)
         }
         console.log("items list",this.current.items)
-        //this.current.items = await this.listapi.get(curID.id)
         return this.current.items
     }
     //archive current lists when adding a new one
     async archiveList()
     {
         let currentId = await this.listapi.getCurrent()
+        console.log(currentId)
         for (let id of currentId)
         {
-            await this.listapi.archive(id)
-            console.log("archive: ",id)
+            await this.listapi.archive(id.id)
+            console.log("archive: ",id.id)
         }
     }
     //get archived lists
@@ -57,12 +63,30 @@ class Model {
         return this.currentList
     }
     //add a new item
-    async insertItem(p_quant, p_name, p_Lid)
+    async insertItem(p_quantity, p_name, p_Lid)
     {
-        const itm = new Item(p_quant, p_name, p_Lid)
+        const itm = new Item(p_quantity, p_name, p_Lid)
         console.log("itm: ",itm)
-        await this.itemapi.insert(itm)
-            .then(r =>  this.getCurrentItems())
+        await this.itemapi.insert(itm).then(this.getCurrentItems())
+        //this.getCurrentItems()
+    }
+    //validation system
+    validateItem(p_id)
+    {
+        for (let item of this.current.items)
+        {
+            if (p_id === item.id)
+            {
+                if (item.valid === true)
+                {
+                    item.valid = false
+                }else{
+                    item.valid = true
+                }
+                this.save_current()
+                console.log(item.valid)
+            }
+        }
     }
     /*constructor() {
         this.listapi = new Listapi()

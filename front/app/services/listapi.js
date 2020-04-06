@@ -9,9 +9,9 @@ class Listapi {
     {
         return fetchJSON(`${serviceBaseUrl}/id/${p_id}`)
     }
-    getCurrent()
+    async getCurrent()
     {
-        return fetchJSON(`${serviceBaseUrl}/current`)
+        return await fetchJSON(`${serviceBaseUrl}/current`)
     }
     async getArchived()
     {
@@ -31,7 +31,7 @@ class Listapi {
     }
     async archive(p_id)
     {
-        return await  fetch(`serviceBaseUrl/archive`, {
+        return await  fetch(`${serviceBaseUrl}archive`, {
             method: 'PUT',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify(p_id)

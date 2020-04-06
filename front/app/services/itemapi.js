@@ -13,14 +13,14 @@ class Itemapi {
     {
         return fetch(`${ServiceBaseUrl}/id/${p_id}`, { method: 'DELETE'})
     }
-    async insert(p_item)
+    insert(p_item)
     {
-        return await fetch(ServiceBaseUrl, {
+        return fetch(ServiceBaseUrl, {
             method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
+            headers: {'Content-Type': 'application/json'},
             body: JSON.stringify(p_item)
         })
-    }
+     }
     update(p_item) {
         return fetch(ServiceBaseUrl, {
             method: 'PUT',

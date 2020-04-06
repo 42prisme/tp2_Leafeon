@@ -16,7 +16,7 @@ module.exports = class ListeCourseDAO extends BaseDAO{
     getCurrent()
     {
         return new Promise(((resolve, reject) => {
-            this.db.query("SELECT * FROM list WHERE archived=false")
+            this.db.query("SELECT * FROM list WHERE archived = false")
                 .then( res => resolve(res.rows))
                 .catch(e => reject(e))
         }))
@@ -24,7 +24,7 @@ module.exports = class ListeCourseDAO extends BaseDAO{
     getArchived()
     {
         return new Promise(((resolve, reject) => {
-            this.db.query("SELECT * FROM list WHERE archived=true")
+            this.db.query("SELECT * FROM list WHERE archived = true")
                 .then( res => resolve(res.rows))
                 .catch(e => reject(e))
         }))
@@ -36,4 +36,8 @@ module.exports = class ListeCourseDAO extends BaseDAO{
                 .then( res => resolve(res.rows))
                 .catch(e => reject(e)))
     } //get all lists
+    update(lst)
+    {
+        return this.db.query("UPDATE list SET name=$2, valid=$3 WHERE id=$1",[lst.id, lst.name, lst.valid])
+    }
 };
