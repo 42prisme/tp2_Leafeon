@@ -21,9 +21,9 @@ class Listapi {
     {
         return await fetch(`${serviceBaseUrl}/${p_id}`, { method: 'DELETE'})
     }
-    async insert(p_list)
+    insert(p_list)
     {
-        return await fetch(serviceBaseUrl, {
+        return fetch(serviceBaseUrl, {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify(p_list)

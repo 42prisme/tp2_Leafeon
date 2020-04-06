@@ -1,23 +1,24 @@
 module.exports = (app, list) => {
     //get lists
-    app.get("/list", async  (req, res) => {
-        res.json(await list.dao.getAll())
+    app.get("/list", (req, res) => {
+        list.dao.getAll().then( result => {
+            res.json(result)
+        }).catch(e => console.error(e))
     })
     //get current list
     app.get("/list/current", (req, res) => {
-        new Promise((resolve, reject) => {
-            console.log("current ---")
-            res.json(list.dao.getCurrent())
-        }).catch(e => console.log(e))
+        list.dao.getCurrent().then( result => {
+            res.json(result)
+        }).catch(e => console.error(e))
     })
     //get archived list
     app.get("/list/archived", (req, res) => {
-        new Promise((resolve, reject) => {
-            res.json(list.dao.getArchived())
-        }).catch(e => console.log(e))
+        list.dao.getArchived().then( result => {
+            res.json(result)
+        }).catch(e => console.error(e))
     })
     //add list
-    app.post("/list", async (req ,res) => {
+    app.post("/list", (req ,res) => {
         const lst = req.body
         if (!list.isValid(lst))return res.status(400).end()
         list.dao.insert(lst)
@@ -28,16 +29,17 @@ module.exports = (app, list) => {
             })
     })
     //delete list
-    app.delete("/list/:id", async (req, res) => {
-        const lst = await list.dao.getById(req.params.id)
-        if (lst === undefined) {
-            return res.status(404).end()
-        }
-        list.dao.delete(req.params.id)
-            .then(res.status(200).end())
-            .catch(e => {
-                console.log(e)
-                res.status(500).end()
-            })
+    app.delete("/list/:id", (req, res) => {
+        list.dao.getById(req.params.id).then( lst => {
+            if (lst === undefined) {
+                return res.status(404).end()
+            }
+            list.dao.delete(req.params.id)
+                .then(res.status(200).end())
+                .catch(e => {
+                    console.log(e)
+                    res.status(500).end()
+                })
+        })
     })
 }

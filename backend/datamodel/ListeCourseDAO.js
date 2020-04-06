@@ -15,19 +15,19 @@ module.exports = class ListeCourseDAO extends BaseDAO{
     }
     getCurrent()
     {
-        return new Promise(((resolve, reject) => {
-            this.db.query("SELECT * FROM list WHERE archived = false")
-                .then( res => resolve(res.rows))
+        return new Promise((resolve, reject) => {
+            this.db.query("SELECT * FROM list where archived = False")
+                .then(res => resolve(res.rows))
                 .catch(e => reject(e))
-        }))
+        })
     }
     getArchived()
     {
-        return new Promise(((resolve, reject) => {
-            this.db.query("SELECT * FROM list WHERE archived = true")
+        return new Promise((resolve, reject) => {
+            this.db.query("SELECT * FROM list where archived = True")
                 .then( res => resolve(res.rows))
                 .catch(e => reject(e))
-        }))
+        })
     }
     getAll()
     {

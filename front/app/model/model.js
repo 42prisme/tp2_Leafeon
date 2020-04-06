@@ -17,19 +17,22 @@ class Model {
         console.log("getcurrentitems")
         this.current = {'id':'', 'name':'', 'items':[]}
         this.listapi.getCurrent()
-            .then( res => this.makeList(res))
-    }
-    makeList(curID)
-    {
-        console.log(curID)
-        for (let list of curID)
-        {
-            console.log("c list id",list.id)
-            this.current.items +=  this.listapi.get(list.id)
-            console.log(this.current.items)
-        }
-        console.log("items list",this.current.items)
-        return this.current.items
+            .then( res => {
+                //console.log(res)
+                for (let list of res)
+                {
+                    //console.log("c list id",list.id)
+                    this.listapi.get(list.id).then( result => {
+                        for (let i=0; i< result.length; i++)
+                        {
+                            this.current.items.push(result[i])
+                            //console.log("result[i]: ",result[i])
+                        }
+                    })
+                }
+                console.log(this.current)
+                return this.current.items
+            })
     }
     //archive current lists when adding a new one
     async archiveList()
@@ -56,19 +59,19 @@ class Model {
     }
     // --- NEW ---
     //add a new list
-    async insertList(p_name){
+    insertList(p_name){
         this.currentList = new List(p_name)
-        await this.listapi.insert(this.currentList)
+        this.listapi.insert(this.currentList).then(() => {return this.currentList})
         console.log("cur_lst_id",this.currentList.id)
-        return this.currentList
+        //return this.currentList
     }
     //add a new item
-    async insertItem(p_quantity, p_name, p_Lid)
+    insertItem(p_quantity, p_name, p_Lid)
     {
         const itm = new Item(p_quantity, p_name, p_Lid)
         console.log("itm: ",itm)
-        await this.itemapi.insert(itm).then(this.getCurrentItems())
-        //this.getCurrentItems()
+        this.itemapi.insert(itm)
+            //.then(() => {this.getCurrentItems()})
     }
     //validation system
     validateItem(p_id)

@@ -16,13 +16,14 @@ module.exports = (app, item) => {
         }
     })
     //get item by list
-    app.get("/list/id/:id", async (req ,res) => {
+    app.get("/list/id/:id",(req ,res) => {
         console.log("ID ---")
         try{
-            const itmList = await item.dao.getListItems(req.params.id)
-            if (itmList === undefined) return res.status(404).end()
-            console.log(res.json(itmList))
-            return  res.json(itmList)
+            item.dao.getListItems(req.params.id).then( result => {
+                if (result === undefined) return res.status(404).end()
+                console.log(res.json(result))
+                return  res.json(result)
+            })
         }catch (e) {
             res.status(400).end()
         }

@@ -4,8 +4,8 @@ const Item = require('./Item')
 module.exports = (list, item) => {
     return new Promise(async (resolve, reject) => {
         try {
-            await list.dao.db.query("DROP TABLE item")
-            await list.dao.db.query("DROP TABLE list")
+            await list.dao.db.query("DROP TABLE IF EXISTS item")
+            await list.dao.db.query("DROP TABLE IF EXISTS list")
             console.log("create list table")
             await list.dao.db.query("CREATE TABLE list(id BIGINT UNIQUE, name TEXT UNIQUE, archived BOOL)")
             // INSERTs
