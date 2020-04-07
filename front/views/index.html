@@ -1,9 +1,10 @@
 <nav>
     <div class="nav-wrapper green">
-        <a id="page_title" href="#" class="brand-logo">Listes de courses</a>
+        <a id="page_title" href="#" class="brand-logo" onclick="indexController.displayLists()">Listes de courses</a>
         <ul id="nav-mobile" class="right hide-on-med-and-down">
             <li><a id="nwlist" class="waves-effect modal-trigger" href="#modalNwList">Nouvelle liste</a></li>
-            <li><a id="history" class="waves-effect" type="submit" onclick="indexController.display_odl()">Historique</a></li>
+            <li><a id="displist" class="waves-effect" onclick="indexController.displayLists()">Liste</a></li>
+            <li><a id="history" class="waves-effect" type="submit" >Historique</a></li>
         </ul>
     </div>
 </nav>

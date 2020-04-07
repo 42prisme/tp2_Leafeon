@@ -21,7 +21,7 @@ module.exports = (app, item) => {
         try{
             item.dao.getListItems(req.params.id).then( result => {
                 if (result === undefined) return res.status(404).end()
-                console.log(res.json(result))
+                //console.log(res.json(result))
                 return  res.json(result)
             })
         }catch (e) {

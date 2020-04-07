@@ -7,7 +7,7 @@ module.exports = class ListeCourseDAO extends BaseDAO{
     }
     insert(list)
     {
-        console.log("dao list ",list)
+        //console.log("dao list ",list)
         return new Promise((resolve, reject) =>
             this.db.query("INSERT INTO list(id, name, archived) VALUES($1, $2, $3)", [list.id, list.name, list.archived])
                 .then( res => resolve(res.rows))

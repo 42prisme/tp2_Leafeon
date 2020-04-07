@@ -9,17 +9,17 @@ class Listapi {
     {
         return fetchJSON(`${serviceBaseUrl}/id/${p_id}`)
     }
-    async getCurrent()
+    getCurrent()
     {
-        return await fetchJSON(`${serviceBaseUrl}/current`)
+        return fetchJSON(`${serviceBaseUrl}/current`)
     }
-    async getArchived()
+    getArchived()
     {
-        return await fetchJSON(`${serviceBaseUrl}/archived`)
+        return fetchJSON(`${serviceBaseUrl}/archived`)
     }
-    async delete(p_id)
+    delete(p_id)
     {
-        return await fetch(`${serviceBaseUrl}/${p_id}`, { method: 'DELETE'})
+        return fetch(`${serviceBaseUrl}/${p_id}`, { method: 'DELETE'})
     }
     insert(p_list)
     {
