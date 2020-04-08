@@ -5,6 +5,10 @@ class Listapi {
     {
         return fetchJSON(serviceBaseUrl)
     }
+    getList(p_id)
+    {
+        return fetchJSON(`${serviceBaseUrl}/${p_id}`)
+    }
     get(p_id)//get all items from list
     {
         return fetchJSON(`${serviceBaseUrl}/id/${p_id}`)
@@ -29,12 +33,13 @@ class Listapi {
             body: JSON.stringify(p_list)
         })
     }
-    async archive(p_id)
+    update(lst)
     {
-        return await  fetch(`${serviceBaseUrl}archive`, {
+        console.log("in api")
+        return fetch(`${serviceBaseUrl}/update`, {
             method: 'PUT',
             headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify(p_id)
+            body: JSON.stringify(lst)
         })
     }
 }

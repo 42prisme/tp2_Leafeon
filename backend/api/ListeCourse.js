@@ -1,3 +1,5 @@
+const List = require('../datamodel/ListeCourse')
+
 module.exports = (app, list) => {
     //get lists
     app.get("/list", (req, res) => {
@@ -5,16 +7,24 @@ module.exports = (app, list) => {
             res.json(result)
         }).catch(e => console.error(e))
     })
-    //get current list
+    //get current lists
     app.get("/list/current", (req, res) => {
         list.dao.getCurrent().then( result => {
             res.json(result)
         }).catch(e => console.error(e))
     })
-    //get archived list
+    //get archived lists
     app.get("/list/archived", (req, res) => {
         list.dao.getArchived().then( result => {
             res.json(result)
+            console.log(result)
+        }).catch(e => console.error(e))
+    })
+    //get list
+    app.get("/list/:id", (req, res) => {
+        list.dao.get(req.params.id).then( result => {
+            res.json(result)
+            console.log("good list")
         }).catch(e => console.error(e))
     })
     //add list
@@ -22,6 +32,18 @@ module.exports = (app, list) => {
         const lst = req.body
         if (!list.isValid(lst))return res.status(400).end()
         list.dao.insert(lst)
+            .then(res.status(200).end())
+            .catch(e => {
+                console.log(e)
+                res.status(500).end()
+            })
+    })
+    //update list
+    app.put("/list/update", (req, res) => {
+        console.log(req.body.rows[0])
+        let Nlst = new List(req.body.rows[0].id, req.body.rows[0].name)
+        Nlst.archived = true
+        list.dao.update(req.body.rows[0])
             .then(res.status(200).end())
             .catch(e => {
                 console.log(e)

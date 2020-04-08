@@ -35,9 +35,17 @@ module.exports = class ListeCourseDAO extends BaseDAO{
             this.db.query("SELECT * FROM list")
                 .then( res => resolve(res.rows))
                 .catch(e => reject(e)))
-    } //get all lists
+    }
+    get(p_id)
+    {
+        return new Promise((resolve, reject) =>
+            this.db.query("SELECT * FROM list WHERE id=$1",[p_id])
+                .then( res => resolve(res))
+                .catch(e => reject(e)))
+    }
     update(lst)
     {
-        return this.db.query("UPDATE list SET name=$2, valid=$3 WHERE id=$1",[lst.id, lst.name, lst.valid])
+        console.log("update: ",lst.id, lst.name, lst.archived)
+        return this.db.query("UPDATE list SET name=$2, archived=$3 WHERE id=$1",[lst.id, lst.name, lst.archived])
     }
 };

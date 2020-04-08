@@ -56,7 +56,8 @@ module.exports = (app, item) => {
     //update item
     app.put("/item", async (req, res) => {
         const itm = req.body
-        if ((itm.id === undefined) || (itm.id == null) || (!item.isValid(itm))) {
+        console.log("itm: ", itm)
+        if (!item.isValid(itm)){
             return res.status(400).end()
         }
         if (await item.dao.getById(itm.id) === undefined) {

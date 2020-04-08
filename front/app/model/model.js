@@ -12,68 +12,16 @@ class Model {
         if (curNam !== undefined) return curNam
     }
     //get the items in the current list
-    getCurrentItems(p_id){
+    getItems(p_id){
         return this.listapi.get(p_id)
-
-        /*return new Promise((resolve, reject) => {
-            console.log("getcurrentitems :",this.current)
-            this.listapi.getCurrent()
-                .then( res => {
-                    //console.log(res)
-                    for (let list of res)
-                    {
-                        this.listapi.get(list.id).then( result => {
-                            for (let i=0; i< result.length; i++)
-                            {
-                                this.current.push(result[i])
-                            }
-                        })
-                    }
-                    for (let v of res){
-                        console.log(v)
-                    }
-                    console.log("current items1 :", this.current)
-                    console.log("current items2 :", this.current.length)
-                    //return this.current.items
-                }).catch( res => {
-                    if (res.status === 200){
-                        resolve("Good")
-                    }else{
-                        reject(res)
-                    }
-            })
-            //return this.current.items
-
-        })*/
     }
-    getCurrentLists()
+    getLists()
     {
         return this.listapi.getCurrent()
-        /*return new Promise((resolve, reject) => {
-            this.listapi.getCurrent()
-                .then(res => resolve(res.rows))
-                .catch(res => {
-                    console.log("yo")
-                    if (res.status === 200){
-                        console.log("model get lists: ",res)
-                        resolve(res.rows)
-                    } else {
-                        reject(res)
-                    }
-                }
-            )
-        })*/
     }
-    //archive current lists when adding a new one
-    async archiveList()
+    getArchived()
     {
-        let currentId = await this.listapi.getCurrent()
-        console.log(currentId)
-        for (let id of currentId)
-        {
-            await this.listapi.archive(id.id)
-            console.log("archive: ",id.id)
-        }
+        return this.listapi.getArchived()
     }
     // --- NEW ---
     //add a new list
@@ -81,7 +29,7 @@ class Model {
         this.currentList = new List(p_name)
         this.listapi.insert(this.currentList).then(() => {return this.currentList})
         console.log("cur_lst_id",this.currentList.id)
-        //return this.currentList
+        return this.currentList
     }
     //add a new item
     insertItem(p_quantity, p_name, p_Lid)
@@ -134,6 +82,11 @@ class Model {
                 })
                 .catch( r => reject(r))
         })
+    }
+
+    emer()
+    {
+        let lstAPI = new Listapi()
     }
 }
 
