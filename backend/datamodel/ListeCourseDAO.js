@@ -36,13 +36,13 @@ module.exports = class ListeCourseDAO extends BaseDAO{
                 .then( res => resolve(res.rows))
                 .catch(e => reject(e)))
     }
-    get(p_id)
+    /*get(p_id)
     {
         return new Promise((resolve, reject) =>
             this.db.query("SELECT * FROM list WHERE id=$1",[p_id])
                 .then( res => resolve(res))
                 .catch(e => reject(e)))
-    }
+    }*/
     update(lst)
     {
         console.log("update: ",lst.id, lst.name, lst.archived)
