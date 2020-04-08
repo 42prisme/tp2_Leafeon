@@ -1,12 +1,12 @@
 const Item = require('../datamodel/Item')
 
-module.exports = (app, item) => {
+module.exports = (app, item, jwt) => {
     //get all items
-    app.get("/item", async  (req, res) => {
+    app.get("/item", jwt.validateJWT, async  (req, res) => {
         res.json(await item.dao.getAll())
     })
     //get item by id
-    app.get("/item/id/:id", async (req ,res) => {
+    app.get("/item/id/:id", jwt.validateJWT, async (req ,res) => {
         try {
             const itm = await item.dao.getById(req.params.id)
             if (itm === undefined) return res.status(404).end()
@@ -16,7 +16,7 @@ module.exports = (app, item) => {
         }
     })
     //get item by list
-    app.get("/list/id/:id",(req ,res) => {
+    app.get("/list/id/:id", jwt.validateJWT,(req ,res) => {
         console.log("ID ---")
         try{
             item.dao.getListItems(req.params.id).then( result => {
@@ -29,7 +29,7 @@ module.exports = (app, item) => {
         }
     })
     //insert item
-    app.post("/item",(req ,res) => {
+    app.post("/item", jwt.validateJWT,(req ,res) => {
         const itm = req.body
         console.log(itm)
         if (!item.isValid(itm))return res.status(400).end()
@@ -41,7 +41,7 @@ module.exports = (app, item) => {
             })
     })
     //delete Item
-    app.delete("/item/id/:id", async (req, res) => {
+    app.delete("/item/id/:id", jwt.validateJWT, async (req, res) => {
         const itm = await item.dao.getById(req.params.id)
         if (itm === undefined) {
             return res.status(404).end()
@@ -54,7 +54,7 @@ module.exports = (app, item) => {
             })
     })
     //update item
-    app.put("/item", async (req, res) => {
+    app.put("/item", jwt.validateJWT, async (req, res) => {
         const itm = req.body
         console.log("itm: ", itm)
         if (!item.isValid(itm)){

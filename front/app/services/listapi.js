@@ -1,44 +1,47 @@
-const serviceBaseUrl = "http://localhost:3333/list";
+//const serviceBaseUrl = "http://localhost:3333/list";
 
-class Listapi {
+class Listapi extends BaseAPI {
+    constructor() {
+        super("list");
+    }
     getAll()
     {
-        return fetchJSON(serviceBaseUrl)
+        return fetchJSON(this.url, this.token)
     }
     getList(p_id)
     {
-        return fetchJSON(`${serviceBaseUrl}/${p_id}`)
+        return fetchJSON(`${this.url}/${p_id}`, this.token)
     }
     get(p_id)//get all items from list
     {
-        return fetchJSON(`${serviceBaseUrl}/id/${p_id}`)
+        return fetchJSON(`${this.url}/id/${p_id}`)
     }
     getCurrent()
     {
-        return fetchJSON(`${serviceBaseUrl}/current`)
+        return fetchJSON(`${this.url}/current`, this.token)
     }
     getArchived()
     {
-        return fetchJSON(`${serviceBaseUrl}/archived`)
+        return fetchJSON(`${this.url}/archived`, this.token)
     }
     delete(p_id)
     {
-        return fetch(`${serviceBaseUrl}/${p_id}`, { method: 'DELETE'})
+        return fetch(`${this.url}/${p_id}`, { method: 'DELETE', headers: this.headers })
     }
     insert(p_list)
     {
-        return fetch(serviceBaseUrl, {
+        return fetch(this.url, {
             method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
+            headers: this.headers,
             body: JSON.stringify(p_list)
         })
     }
     update(lst)
     {
         console.log("in api")
-        return fetch(`${serviceBaseUrl}/update`, {
+        return fetch(`${this.url}/update`, {
             method: 'PUT',
-            headers: { 'Content-Type': 'application/json' },
+            headers: this.headers,
             body: JSON.stringify(lst)
         })
     }

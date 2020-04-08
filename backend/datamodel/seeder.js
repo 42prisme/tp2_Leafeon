@@ -10,7 +10,7 @@ module.exports = (list, item, user) => {
             await list.dao.db.query("DROP TABLE IF EXISTS users")
             console.log("create user table")
             await user.dao.db.query("CREATE TABLE users(id BIGINT UNIQUE, name TEXT UNIQUE, password TEXT)")
-            await user.dao.insert(new User(1,"hugo","jackson"))
+            await user.dao.insert(new User(1,"hugo","$2b$10$9DlMkKR9gdi04iJlxM6HmOI10in26A9g0t2i.6tN7WjdC4leXjfqG"))
             console.log("create list table")
             await list.dao.db.query("CREATE TABLE list(id BIGINT UNIQUE, name TEXT UNIQUE, archived BOOL)")
             // INSERTs

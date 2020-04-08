@@ -1,30 +1,33 @@
-const ServiceBaseUrl = "http://localhost:3333/item";
+//const ServiceBaseUrl = "http://localhost:3333/item";
 
-class Itemapi {
+class Itemapi extends BaseAPI{
+    constructor() {
+        super("item");
+    }
     getAll()
     {
-        return fetchJSON(ServiceBaseUrl)
+        return fetchJSON(this.url, this.token)
     }
     get(p_id)
     {
-        return fetchJSON(`${ServiceBaseUrl}/id/${p_id}`)
+        return fetchJSON(`${this.url}/id/${p_id}`, this.token)
     }
     delete(p_id)
     {
-        return fetch(`${ServiceBaseUrl}/id/${p_id}`, { method: 'DELETE'})
+        return fetch(`${this.url}/id/${p_id}`, { method: 'DELETE', headers: this.headers})
     }
     insert(p_item)
     {
-        return fetch(ServiceBaseUrl, {
+        return fetch(this.url, {
             method: 'POST',
-            headers: {'Content-Type': 'application/json'},
+            headers: this.headers,
             body: JSON.stringify(p_item)
         })
      }
     update(p_item) {
-        return fetch(ServiceBaseUrl, {
+        return fetch(this.url, {
             method: 'PUT',
-            headers: { 'Content-Type': 'application/json' },
+            headers: this.headers,
             body: JSON.stringify(p_item)
         })
     }
