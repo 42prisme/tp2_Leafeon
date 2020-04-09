@@ -46,6 +46,7 @@ class IndexController extends BaseController{
         console.log("mark1")
         this.model.getLists()
             .then( res => {
+                console.log(res)
                     let html = "";
                     for (let list of res)
                     {
@@ -55,6 +56,7 @@ class IndexController extends BaseController{
                     document.getElementById("list_content").innerHTML = html
                 }
             )
+        this.model.listapi.getAll().then(res => console.log(res))
     }
 
     displayHistory()

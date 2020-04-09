@@ -1,8 +1,7 @@
 class List {
-    constructor(name, owner)
+    constructor(name)
     {
         this.id = Date.now();
-        this.owner = owner;
         this.name = name;
         this.archived = false;
     }

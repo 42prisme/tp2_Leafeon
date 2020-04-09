@@ -8,7 +8,6 @@ class BaseAPI {
         this.headers = new Headers()
         if (this.token !== undefined) {
             this.headers.append("authorization", `Bearer ${this.token}`)
-            //this.headers.append("Content-Type", `application/json`)
         }
     }
 }

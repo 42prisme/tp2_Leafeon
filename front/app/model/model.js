@@ -2,8 +2,6 @@ class Model {
     constructor() {
         this.listapi = new Listapi()
         this.itemapi = new Itemapi()
-        this.owner = ""
-
     }
     //  --- get ---
     //get current list name
@@ -28,7 +26,7 @@ class Model {
     insertList(p_name){
         this.currentList = new List(p_name)
         this.listapi.insert(this.currentList).then(() => {return this.currentList})
-        console.log("cur_lst_id",this.currentList.id)
+        console.log("cur_lst",this.currentList)
         return this.currentList
     }
     //add a new item
@@ -38,24 +36,7 @@ class Model {
         console.log("itm: ", itm)
         return this.itemapi.insert(itm)
      }
-    // validation system
-    /*validateItem(p_id)
-    {
-        for (let item of this.current.items)
-        {
-            if (p_id === item.id)
-            {
-                if (item.valid === true)
-                {
-                    item.valid = false
-                }else{
-                    item.valid = true
-                }
-                this.save_current()
-                console.log(item.valid)
-            }
-        }
-    }*/
+
     deleteList(p_id)
     {
         return new Promise((resolve, reject) => {

@@ -5,47 +5,45 @@ module.exports = class ListeCourseDAO extends BaseDAO{
     {
         super(db, "list")
     }
-    insert(list)
+    insert(list, user)
     {
-        //console.log("dao list ",list)
+        console.log("dao list ",list)
+        list.owner = user
         return new Promise((resolve, reject) =>
-            this.db.query("INSERT INTO list(id, name, archived) VALUES($1, $2, $3)", [list.id, list.name, list.archived])
+            this.db.query("INSERT INTO list(id, name, owner, archived) VALUES($1, $2, $3, $4)", [list.id, list.name, list.owner, list.archived])
                 .then( res => resolve(res.rows))
                 .catch( e => reject(e)))
     }
-    getCurrent()
+    getCurrent(user)
     {
         return new Promise((resolve, reject) => {
-            this.db.query("SELECT * FROM list where archived = False")
+            console.log("user :",user)
+            this.db.query("SELECT * FROM list where archived = False AND owner = $1",[user])
                 .then(res => resolve(res.rows))
                 .catch(e => reject(e))
         })
     }
-    getArchived()
+    getArchived(user)
     {
         return new Promise((resolve, reject) => {
-            this.db.query("SELECT * FROM list where archived = True")
+            console.log("user :",user)
+            this.db.query("SELECT * FROM list where archived = True AND owner = $1",[user])
                 .then( res => resolve(res.rows))
                 .catch(e => reject(e))
         })
     }
-    getAll()
+    getAll(user)
     {
         return new Promise((resolve, reject) =>
-            this.db.query("SELECT * FROM list")
+            this.db.query("SELECT * FROM list ")//WHERE owner = $1",[user]
                 .then( res => resolve(res.rows))
+                .then( res => console.log(res))
                 .catch(e => reject(e)))
     }
-    /*get(p_id)
-    {
-        return new Promise((resolve, reject) =>
-            this.db.query("SELECT * FROM list WHERE id=$1",[p_id])
-                .then( res => resolve(res))
-                .catch(e => reject(e)))
-    }*/
-    update(lst)
+
+    update(lst, user)
     {
         console.log("update: ",lst.id, lst.name, lst.archived)
-        return this.db.query("UPDATE list SET name=$2, archived=$3 WHERE id=$1",[lst.id, lst.name, lst.archived])
+        return this.db.query("UPDATE list SET name=$2, archived=$3 WHERE id=$1 AND owner=$4",[lst.id, lst.name, lst.archived, user])
     }
 };

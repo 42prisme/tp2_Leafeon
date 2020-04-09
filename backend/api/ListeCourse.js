@@ -3,26 +3,27 @@ const List = require('../datamodel/ListeCourse')
 module.exports = (app, list, jwt) => {
     //get lists
     app.get("/list", jwt.validateJWT, (req, res) => {
-        list.dao.getAll().then( result => {
+        list.dao.getAll(req.user.name).then( result => {
             res.json(result)
         }).catch(e => console.error(e))
     })
     //get current lists
     app.get("/list/current", jwt.validateJWT, (req, res) => {
-        list.dao.getCurrent().then( result => {
+        //console.log("disp current :",req.user.name)
+        list.dao.getCurrent(req.user.name).then( result => {
             res.json(result)
         }).catch(e => console.error(e))
     })
     //get archived lists
     app.get("/list/archived", jwt.validateJWT, (req, res) => {
-        list.dao.getArchived().then( result => {
+        list.dao.getArchived(req.user.name).then( result => {
             res.json(result)
             console.log(result)
         }).catch(e => console.error(e))
     })
     //get list
     app.get("/list/:id", jwt.validateJWT, (req, res) => {
-        console.log("req",req)
+        //console.log("req",req)
         list.dao.getById(req.params.id).then( result => {
             res.json(result)
             console.log("good list", result)
@@ -32,7 +33,7 @@ module.exports = (app, list, jwt) => {
     app.post("/list", jwt.validateJWT, (req ,res) => {
         const lst = req.body
         if (!list.isValid(lst))return res.status(400).end()
-        list.dao.insert(lst)
+        list.dao.insert(lst, req.user.name)
             .then(res.status(200).end())
             .catch(e => {
                 console.log(e)
@@ -42,10 +43,8 @@ module.exports = (app, list, jwt) => {
     //update list
     app.put("/list/update", jwt.validateJWT, (req, res) => {
         console.log("update : ",req.body)
-        console.log("update : ", req.headers)
-        let Nlst = new List(req.body.id, req.body.name)
-        Nlst.archived = true
-        list.dao.update(req.body)
+        console.log("update : ", req.user.name)
+        list.dao.update(req.body, req.user.name)
             .then(res.status(200).end())
             .catch(e => {
                 console.log(e)

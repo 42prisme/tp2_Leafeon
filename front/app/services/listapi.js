@@ -16,10 +16,9 @@ class Listapi extends BaseAPI {
     {
         return fetchJSON(`${this.url}/id/${p_id}`, this.token)
     }
-    async getCurrent()
+    getCurrent()
     {
-        console.log("token :", this.token)
-        console.log("message :", await fetchJSON(`${this.url}/current`, this.token))
+        //console.log("token :", this.token)
         return fetchJSON(`${this.url}/current`, this.token)
     }
     getArchived()
@@ -32,7 +31,7 @@ class Listapi extends BaseAPI {
     }
     insert(p_list)
     {
-        console.log("p_list",p_list)
+        //console.log("p_list",p_list)
         this.headers.set("Content-Type", `application/json`)
         return fetch(this.url, {
             method: 'POST',

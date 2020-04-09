@@ -4,6 +4,11 @@ class LoginController extends BaseFormController {
         this.svc = new UserAPI()
     }
     async authenticate() {
+        if (document.getElementById("submitButton").innerText === "REGISTER")
+        {
+            this.createNewUser()
+            return
+        }
         let login = this.validateRequiredField('#fieldLogin', 'Adresse e-mail')
         let password = this.validateRequiredField('#fieldPassword', 'Mot de passe')
         if ((login != null) && (password != null)) {
@@ -11,7 +16,6 @@ class LoginController extends BaseFormController {
             this.svc.authenticate(login, password)
                 .then(res => {
                     sessionStorage.setItem("token", res.token)
-                    this.model.owner = login;
                     window.location.replace("index.html")
                 })
                 .catch(err => {
@@ -23,6 +27,18 @@ class LoginController extends BaseFormController {
                     }
                 })
         }
+    }
+    createNewUser()
+    {
+
+    }
+    addUser()
+    {
+        document.getElementById("submitButton").innerText = "REGISTER"
+    }
+    login()
+    {
+
     }
 }
 
