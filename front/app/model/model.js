@@ -2,7 +2,7 @@ class Model {
     constructor() {
         this.listapi = new Listapi()
         this.itemapi = new Itemapi()
-        this.current = [ ]
+        this.owner = ""
 
     }
     //  --- get ---
@@ -82,11 +82,6 @@ class Model {
                 })
                 .catch( r => reject(r))
         })
-    }
-
-    emer()
-    {
-        let lstAPI = new Listapi()
     }
 }
 

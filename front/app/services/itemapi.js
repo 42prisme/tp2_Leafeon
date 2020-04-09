@@ -1,6 +1,6 @@
 //const ServiceBaseUrl = "http://localhost:3333/item";
 
-class Itemapi extends BaseAPI{
+class Itemapi extends BaseAPI {
     constructor() {
         super("item");
     }
@@ -18,6 +18,8 @@ class Itemapi extends BaseAPI{
     }
     insert(p_item)
     {
+        console.log("itm",p_item)
+        this.headers.set("Content-Type", `application/json`)
         return fetch(this.url, {
             method: 'POST',
             headers: this.headers,
@@ -25,6 +27,7 @@ class Itemapi extends BaseAPI{
         })
      }
     update(p_item) {
+        this.headers.set("Content-Type", `application/json`)
         return fetch(this.url, {
             method: 'PUT',
             headers: this.headers,

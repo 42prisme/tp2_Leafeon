@@ -29,9 +29,9 @@ module.exports = (app, item, jwt) => {
         }
     })
     //insert item
-    app.post("/item", jwt.validateJWT,(req ,res) => {
+    app.post("/item", jwt.validateJWT, (req ,res) => {
         const itm = req.body
-        console.log(itm)
+        console.log("insert item: ",itm)
         if (!item.isValid(itm))return res.status(400).end()
         item.dao.insert(itm)
             .then(res.status(200).end())

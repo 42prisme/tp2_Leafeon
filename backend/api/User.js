@@ -49,7 +49,7 @@ module.exports = (app, user, jwt) => {
     })
     app.post('/user/auth', (req, res) => {
         const { login, password } = req.body
-        console.log(req.body)
+        //console.log(req.body)
         if ((login === undefined) || (password === undefined)) {
             console.log(req.body)
             res.status(400).end()
@@ -57,6 +57,7 @@ module.exports = (app, user, jwt) => {
         }
         user.validatePassword(login, password)
             .then(autheticated => {
+                console.log("auth lala ",autheticated)
                 if (!autheticated) {
                     res.status(401).end()
                     return

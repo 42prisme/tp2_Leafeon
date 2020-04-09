@@ -22,9 +22,10 @@ module.exports = (app, list, jwt) => {
     })
     //get list
     app.get("/list/:id", jwt.validateJWT, (req, res) => {
-        list.dao.get(req.params.id).then( result => {
+        console.log("req",req)
+        list.dao.getById(req.params.id).then( result => {
             res.json(result)
-            console.log("good list")
+            console.log("good list", result)
         }).catch(e => console.error(e))
     })
     //add list
@@ -40,10 +41,11 @@ module.exports = (app, list, jwt) => {
     })
     //update list
     app.put("/list/update", jwt.validateJWT, (req, res) => {
-        console.log(req.body.rows[0])
-        let Nlst = new List(req.body.rows[0].id, req.body.rows[0].name)
+        console.log("update : ",req.body)
+        console.log("update : ", req.headers)
+        let Nlst = new List(req.body.id, req.body.name)
         Nlst.archived = true
-        list.dao.update(req.body.rows[0])
+        list.dao.update(req.body)
             .then(res.status(200).end())
             .catch(e => {
                 console.log(e)

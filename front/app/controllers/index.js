@@ -155,7 +155,8 @@ class IndexController extends BaseController{
         this.model.listapi.getList(p_id)
             .then( lst => {
                 console.log(lst)
-                lst.rows[0].archived = true
+                console.log(lst.archived)
+                lst.archived = true //rows[0].
                 this.model.listapi.update(lst)
                     .then(() => this.displayLists())
             })
@@ -165,7 +166,12 @@ class IndexController extends BaseController{
         this.model.itemapi.get(p_id)
             .then( res => {
                 console.log("res", res)
-                res.valid = true
+                if (res.valid)
+                {
+                    res.valid = false
+                }else{
+                    res.valid = true
+                }
                 console.log("res", res)
                 this.model.itemapi.update(res)
                     .then(() => {

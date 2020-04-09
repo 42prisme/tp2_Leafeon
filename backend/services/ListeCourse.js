@@ -6,7 +6,7 @@ module.exports = class ListService {
     }
     isValid(lst)
     {
-        console.log(lst.id)
+        console.log("id: ",lst)
         if (lst.id === undefined || lst.id === null || isNaN(lst.id)) return false
         lst.name = lst.name.trim()
         console.log(lst.name)
