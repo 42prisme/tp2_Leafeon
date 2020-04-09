@@ -55,7 +55,12 @@ class IndexController extends BaseController{
                     }
                     document.getElementById("list_content").innerHTML = html
                 }
-            )
+            ).catch(err => {
+                if (err === 401)
+                {
+                    M.toast({html:'session invalid'});
+                }
+        })
         this.model.listapi.getAll().then(res => console.log(res))
     }
 
@@ -71,7 +76,12 @@ class IndexController extends BaseController{
                     html+=`<tr><td><a href="#View_arch_list" class="modal-trigger" onclick="indexController.displayArchList(${list.id})">${list.name}</a></td><td><a class="waves-effect waves-light btn red" onclick="indexController.deleteArchList(${list.id})">Delete</a></td></tr>`
                 }
                 document.getElementById("list_content").innerHTML = html
-            });
+            }).catch(err => {
+            if (err === 401)
+            {
+                M.toast({html:'session invalid'});
+            }
+        })
     }
 
     displayArchList(p_id)
@@ -85,18 +95,16 @@ class IndexController extends BaseController{
                     html+=`<tr><td>${itm.quantity}</td><td>${itm.name}</td></tr><br>`
                 }
                 document.getElementById("itemLst").innerHTML = html
-            })
+            }).catch(err => {
+            if (err === 401)
+            {
+                M.toast({html:'session invalid'});
+            }
+        })
     }
 
     createNewList()
     {
-        document.getElementById("list_content").innerHTML = "";
-        console.log("creat name: undefined is good :",this.model.getCurrentName());
-        if (this.model.getCurrentName() !== undefined)
-        {
-            console.log("undefined problem if first list");
-            this.archiveList()
-        }
         document.getElementById("page_title").innerText = "Listes de courses";
         const listname = document.getElementById("list_name").value;
         if (listname === "" || listname === null)
@@ -104,11 +112,10 @@ class IndexController extends BaseController{
             M.toast({html:'a girl has no name (SO6EO2 GOT)'});
             return
         }
-        console.log("get lst name : ",listname);
+        document.getElementById("list_content").innerHTML = "";
         document.getElementById("list_name").value = "";
-        this.lst = this.model.insertList(listname);
-        console.log("insert list :", this.lst);
-        //display title
+        //insertion de la list
+        this.lst = this.model.insertList(listname)
         document.getElementById("title").innerHTML = `<h5>Liste : ${listname}</h5>`;
         this.displayInputMethod(this.lst.id);
     }
@@ -118,7 +125,7 @@ class IndexController extends BaseController{
         const item = $("#item").value;
         if (quantity === 0 || quantity === "" || item === "") /// need to be more restrictive!!!
         {
-            M.toast({html:'les champs doivent etre renseigner'});
+            M.toast({html:'les champs doivent etre correctement renseigner'});
             return
         }
         if (p_lId === undefined)

@@ -21,9 +21,9 @@ class LoginController extends BaseFormController {
                 .catch(err => {
                     console.log(err)
                     if (err == 401) {
-                        M.toast({html:"Adresse e-mail ou mot de passe incorrect"})
+                        M.toast({html:"user name or password incorrect"})
                     } else {
-                        M.toast({html:'Service injoignable ou problème réseau'})
+                        M.toast({html:'connexion problemes'})
                     }
                 })
         }

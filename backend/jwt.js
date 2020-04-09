@@ -1,6 +1,6 @@
 const jwt = require('jsonwebtoken')
 const jwtKey = '?@a-Z8W2tb]<EzqRKg,)5:{g3F^ZG_L#?]r-'
-const jwtExpirySeconds = 360000
+const jwtExpirySeconds = 36
 
 module.exports = (userAccountService) => {
     return {

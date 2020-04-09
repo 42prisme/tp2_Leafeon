@@ -25,7 +25,9 @@ class Model {
     //add a new list
     insertList(p_name){
         this.currentList = new List(p_name)
-        this.listapi.insert(this.currentList).then(() => {return this.currentList})
+        this.listapi.insert(this.currentList)
+            .then(() => {return this.currentList})
+
         console.log("cur_lst",this.currentList)
         return this.currentList
     }
