@@ -112,26 +112,18 @@ class IndexController extends BaseController{
         })
     }
 
-    createNewList()
-    {
+    async createNewList() {
         document.getElementById("page_title").innerText = "Listes de courses";
         const listname = document.getElementById("list_name").value;
-        if (listname === "" || listname === null)
-        {
-            M.toast({html:'a girl has no name (SO6EO2 GOT)'});
+        if (listname === "" || listname === null) {
+            M.toast({html: 'a girl has no name (SO6EO2 GOT)'});
             return
         }
         document.getElementById("list_content").innerHTML = "";
         document.getElementById("list_name").value = "";
         //insertion de la list
-        this.lst = this.model.insertList(listname)
-        console.log("nw list", this.lst)
-        if (this.lst === undefined)
-        {
-            M.toast({html:'session invalid'});
-            window.location.replace("login.html");
-            return;
-        }
+        this.lst = await this.model.insertList(listname)
+
         document.getElementById("title").innerHTML = `<h5>Liste : ${listname}</h5>`;
         this.displayInputMethod(this.lst.id);
     }

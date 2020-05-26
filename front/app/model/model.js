@@ -25,10 +25,18 @@ class Model {
     //add a new list
     insertList(p_name){
         this.currentList = new List(p_name)
-        this.listapi.insert(this.currentList)
-            .then(() => {return this.currentList})
-
-        //return this.currentList
+        return new Promise(((resolve, reject) =>
+            this.listapi.insert(this.currentList)
+            .then(res => {
+                if(res.status === 401)
+                {
+                    M.toast({html:'session invalid'});
+                    window.location.replace("login.html");
+                }else{
+                    resolve(res)
+                }
+            }).catch(e => reject(e))
+        ))
     }
     //add a new item
     insertItem(p_quantity, p_name, p_Lid)
