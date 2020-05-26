@@ -37,7 +37,13 @@ class IndexController extends BaseController{
                     html += `<tr><td><a id="${item.id}" class="btn-floating btn-large waves-effect waves-light ${valid}" onclick="indexController.validate(${item.id})"><i class="material-icons">check</i></a></td><td>${item.quantity}</td><td>${item.name}</td><td><a class="waves-effect waves-light btn red" onclick="indexController.deleteItem(${item.id}, ${item.list_id})">Delete</a></td></tr>`
                 }
                 document.getElementById("list_content").innerHTML = html
-            }).then(() => this.displayInputMethod(lst_id))
+            }).then(() => this.displayInputMethod(lst_id)).catch(err => {
+                if (err === 401)
+                {
+                    M.toast({html:'session invalid'});
+                    window.location.replace("login.html")
+                }
+        })
     }
     displayLists()
     {
@@ -46,7 +52,6 @@ class IndexController extends BaseController{
         console.log("mark1")
         this.model.getLists()
             .then( res => {
-                console.log(res)
                     let html = "";
                     for (let list of res)
                     {
@@ -59,6 +64,7 @@ class IndexController extends BaseController{
                 if (err === 401)
                 {
                     M.toast({html:'session invalid'});
+                    window.location.replace("login.html")
                 }
         })
         this.model.listapi.getAll().then(res => console.log(res))
@@ -80,6 +86,7 @@ class IndexController extends BaseController{
             if (err === 401)
             {
                 M.toast({html:'session invalid'});
+                window.location.replace("login.html")
             }
         })
     }
@@ -99,6 +106,7 @@ class IndexController extends BaseController{
             if (err === 401)
             {
                 M.toast({html:'session invalid'});
+                window.location.replace("login.html")
             }
         })
     }
@@ -116,6 +124,13 @@ class IndexController extends BaseController{
         document.getElementById("list_name").value = "";
         //insertion de la list
         this.lst = this.model.insertList(listname)
+        console.log("nw list", this.lst)
+        if (this.lst === undefined)
+        {
+            M.toast({html:'session invalid'});
+            window.location.replace("login.html");
+            return;
+        }
         document.getElementById("title").innerHTML = `<h5>Liste : ${listname}</h5>`;
         this.displayInputMethod(this.lst.id);
     }
@@ -139,6 +154,9 @@ class IndexController extends BaseController{
                 if (res.status === 200){
                     this.displayItems(p_lId)
                 }
+                if (res.status === 401){
+                    window.location.replace("login.html")
+                }
             });
         document.getElementById("quant").value = "";
         document.getElementById("item").value = ""
@@ -147,21 +165,45 @@ class IndexController extends BaseController{
     {
         this.model.deleteItem(p_id)
             .then(() => this.displayItems(p_listId))
+            .catch(err => {
+            if (err === 401)
+            {
+                M.toast({html:'session invalid'});
+                window.location.replace("login.html")
+            }
+        })
     }
     deleteList(p_id)
     {
         this.model.deleteList(p_id)
             .then(() => this.displayLists())
+            .catch(err => {
+            if (err === 401)
+            {
+                M.toast({html:'session invalid'});
+                window.location.replace("login.html")
+            }
+        })
     }
     deleteArchList(p_id)
     {
         this.model.deleteList(p_id)
+            .catch(err => {
+                if (err === 401){
+                    window.location.replace("login.html")
+                }
+            })
             .then(() => this.displayHistory())
     }
     archive(p_id)   //archives lists
     {
         console.log("archive")
         this.model.listapi.getList(p_id)
+            .catch(err => {
+                if (err === 401){
+                    window.location.replace("login.html")
+                }
+            })
             .then( lst => {
                 console.log(lst)
                 console.log(lst.archived)
@@ -194,7 +236,13 @@ class IndexController extends BaseController{
                             item.add("green")
                         }
                     })
-            })
+            }).catch(err => {
+            if (err === 401)
+            {
+                M.toast({html:'session invalid'});
+                window.location.replace("login.html")
+            }
+        })
     }
 }
 

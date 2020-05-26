@@ -28,8 +28,7 @@ class Model {
         this.listapi.insert(this.currentList)
             .then(() => {return this.currentList})
 
-        console.log("cur_lst",this.currentList)
-        return this.currentList
+        //return this.currentList
     }
     //add a new item
     insertItem(p_quantity, p_name, p_Lid)

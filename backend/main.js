@@ -17,7 +17,7 @@ app.use(morgan('dev')); // toutes les requêtes HTTP dans le log du serveur
 app.use(cookieParser()); //auth
 
 //db postgre
-const connectionString = "postgres://api:pswd@172.17.0.2/DB";
+const connectionString = "postgres://user1:pswd@172.17.0.2/DB";
 const db = new pg.Pool({connectionString: connectionString});
 const ListService = new listService(db);
 const itemService = new Item(db);

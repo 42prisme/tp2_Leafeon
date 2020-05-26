@@ -35,7 +35,7 @@ module.exports = class ListeCourseDAO extends BaseDAO{
     getAll(user)
     {
         return new Promise((resolve, reject) =>
-            this.db.query("SELECT * FROM list ")//WHERE owner = $1",[user]
+            this.db.query("SELECT * FROM list WHERE owner = $1",[user])//WHERE owner = $1,[user]
                 .then( res => resolve(res.rows))
                 .then( res => console.log(res))
                 .catch(e => reject(e)))
