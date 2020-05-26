@@ -3,6 +3,7 @@ class IndexController extends BaseController{
         super()
         console.log("constructor")
         this.displayLists()
+        this.lastp_id;
         //archiving old current lists
         /*if (this.model.current.name !== "")
         {
@@ -175,15 +176,23 @@ class IndexController extends BaseController{
     }
     deleteList(p_id)
     {
-        this.model.deleteList(p_id)
+        M.Modal.getInstance(modalDlList).open()
+        this.lastp_id = p_id;
+    }
+
+    deleteList_Confirmation()
+    {
+        if(this.lastp_id === 0) return;
+        this.model.deleteList(this.lastp_id)
             .then(() => this.displayLists())
             .catch(err => {
-            if (err === 401)
-            {
-                M.toast({html:'session invalid'});
-                window.location.replace("login.html")
-            }
-        })
+                if (err === 401)
+                {
+                    M.toast({html:'session invalid'});
+                    window.location.replace("login.html")
+                }
+            })
+        this.lastp_id = 0
     }
     deleteArchList(p_id)
     {
