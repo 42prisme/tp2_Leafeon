@@ -13,6 +13,11 @@ class Model {
     getItems(p_id){
         return this.listapi.get(p_id)
     }
+
+    getItem(p_id){
+        return this.itemapi.get(p_id)
+    }
+
     getLists()
     {
         return this.listapi.getCurrent()
@@ -45,6 +50,17 @@ class Model {
         const itm = new Item(p_quantity, p_name, p_Lid)
         console.log("itm: ", itm)
         return this.itemapi.insert(itm)
+     }
+
+     updateItem(p_quantity, p_name, p_Lid)
+     {
+         const itm = new Item(p_quantity, p_name, p_Lid)
+         return this.itemapi.update(itm)
+     }
+
+     updateItem_copy(item)
+     {
+        return this.itemapi.update(item)
      }
 
     deleteList(p_id)

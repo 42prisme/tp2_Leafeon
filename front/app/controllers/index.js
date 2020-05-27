@@ -35,7 +35,7 @@ class IndexController extends BaseController{
                     }else{
                         valid = "green"
                     }
-                    html += `<tr><td><a id="${item.id}" class="btn-floating btn-large waves-effect waves-light ${valid}" onclick="indexController.validate(${item.id})"><i class="material-icons">check</i></a></td><td>${item.quantity}</td><td>${item.name}</td><td><a class="waves-effect waves-light btn red" onclick="indexController.deleteItem(${item.id}, ${item.list_id})">Delete</a></td></tr>`
+                    html += `<tr><td><a id="${item.id}" class="btn-floating btn-large waves-effect waves-light ${valid}" onclick="indexController.validate(${item.id})"><i class="material-icons">check</i></a></td><td>${item.quantity}</td><td><a onclick="indexController.editItemModal(${item.id})">${item.name}</a></td><td><a class="waves-effect waves-light btn red" onclick="indexController.deleteItem(${item.id}, ${item.list_id})">Delete</a></td></tr>`
                 }
                 document.getElementById("list_content").innerHTML = html
             }).then(() => this.displayInputMethod(lst_id)).catch(err => {
@@ -162,6 +162,38 @@ class IndexController extends BaseController{
         document.getElementById("quant").value = "";
         document.getElementById("item").value = ""
     }
+
+    async editItemModal(p_id)
+    {
+        //open modal to edit the Item
+        this.item = await this.model.getItem(p_id)
+        M.Modal.getInstance(modalDEditList).open()
+        console.log(this.item.id)
+        document.getElementById("editItem_quant").value = this.item.quantity
+        document.getElementById("editItem_name").value = this.item.name
+        document.getElementById("editItem_submit").addEventListener("click",function(){indexController.editItem(this)}.bind(this.item.id))
+    }
+
+    editItem(p_id)
+    {
+        var quant = document.getElementById("editItem_quant").value
+        var name = document.getElementById("editItem_name").value
+        console.log("MODIF !!!!", quant)
+        //save the edited Item
+        this.item.quantity = quant
+        this.item.name = name
+        this.model.updateItem_copy(this.item)
+            .then(res => {
+                console.log("status" ,res.status)
+            if (res.status === 200){
+                this.displayItems(this.item.list_id)
+            }
+            if (res.status === 401){
+                window.location.replace("login.html")
+            }
+        });
+    }
+
     deleteItem(p_id, p_listId)
     {
         this.model.deleteItem(p_id)
