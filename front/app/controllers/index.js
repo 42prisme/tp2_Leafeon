@@ -112,6 +112,7 @@ class IndexController extends BaseController{
         })
     }
 
+    //unfinished
     async createNewList() {
         document.getElementById("page_title").innerText = "Listes de courses";
         const listname = document.getElementById("list_name").value;
@@ -123,9 +124,16 @@ class IndexController extends BaseController{
         document.getElementById("list_name").value = "";
         //insertion de la list
         this.lst = await this.model.insertList(listname)
-
+        if (this.lst.statusText === "OK")
+        {
+            this.model.getLists()
+                .then( res => {
+                    this.displayInputMethod(res[res.length-1].id)
+                    console.log("coucou",res)
+                })
+            //this.displayInputMethod(this.id);
+        }
         document.getElementById("title").innerHTML = `<h5>Liste : ${listname}</h5>`;
-        this.displayInputMethod(this.lst.id);
     }
 
     addItem(p_lId){
@@ -158,13 +166,6 @@ class IndexController extends BaseController{
     {
         this.model.deleteItem(p_id)
             .then(() => this.displayItems(p_listId))
-            .catch(err => {
-            if (err === 401)
-            {
-                M.toast({html:'session invalid'});
-                window.location.replace("login.html")
-            }
-        })
     }
     deleteList(p_id)
     {
@@ -176,7 +177,13 @@ class IndexController extends BaseController{
     {
         if(this.lastp_id === 0) return;
         this.model.deleteList(this.lastp_id)
-            .then(() => this.displayLists())
+            .then(res => {
+                if (res === 401)
+                {
+                    console.log("god is here")
+                }
+                this.displayLists()
+            })
             .catch(err => {
                 if (err === 401)
                 {
