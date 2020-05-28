@@ -1,4 +1,5 @@
 const List = require('../datamodel/ListeCourse')
+const jwt = require('../jwt')
 
 module.exports = (app, list, jwt) => {
     //get lists
@@ -26,7 +27,6 @@ module.exports = (app, list, jwt) => {
         //console.log("req",req)
         list.dao.getById(req.params.id).then( result => {
             res.json(result)
-            console.log("good list", result)
         }).catch(e => console.error(e))
     })
     //add list
@@ -42,8 +42,6 @@ module.exports = (app, list, jwt) => {
     })
     //update list
     app.put("/list/update", jwt.validateJWT, (req, res) => {
-        console.log("update : ",req.body)
-        console.log("update : ", req.user.name)
         list.dao.update(req.body, req.user.name)
             .then(res.status(200).end())
             .catch(e => {
@@ -64,5 +62,10 @@ module.exports = (app, list, jwt) => {
                     res.status(500).end()
                 })
         })
+    })
+    //renew token
+    app.post('/list/renewauth', jwt.validateJWT, (req, res) => {
+        console.log("the req", req.body.user)
+        res.json({'token' : jwt.generateJWT(req.body.user)})
     })
 }

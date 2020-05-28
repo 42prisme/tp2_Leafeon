@@ -12,10 +12,11 @@ class LoginController extends BaseFormController {
         let login = this.validateRequiredField('#fieldLogin', 'Adresse e-mail')
         let password = this.validateRequiredField('#fieldPassword', 'Mot de passe')
         if ((login != null) && (password != null)) {
-            console.log(login, password)
             this.svc.authenticate(login, password)
                 .then(res => {
+                    console.log("login status", res)
                     sessionStorage.setItem("token", res.token)
+                    sessionStorage.setItem("username", login)
                     window.location.replace("index.html")
                 })
                 .catch(err => {
@@ -35,10 +36,6 @@ class LoginController extends BaseFormController {
     addUser()
     {
         document.getElementById("submitButton").innerText = "REGISTER"
-    }
-    login()
-    {
-
     }
 }
 

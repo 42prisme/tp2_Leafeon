@@ -23,6 +23,7 @@ class IndexController extends BaseController{
                             </tr>`
     }
     displayItems(lst_id) {
+        this.model.renew(sessionStorage.getItem("username"))
         this.model.getItems(lst_id)
             .then( items => {
                 let html = "";
@@ -48,7 +49,8 @@ class IndexController extends BaseController{
     }
     displayLists()
     {
-        document.getElementById("title").innerHTML = `<h5>Listes de courses</h5>`;
+        this.model.renew(sessionStorage.getItem("username"))
+        document.getElementById("title").innerHTML = `<h5>Listes de courses</h5>`
         document.getElementById("list_add").innerHTML = ""
         console.log("mark1")
         this.model.getLists()
@@ -129,7 +131,6 @@ class IndexController extends BaseController{
             this.model.getLists()
                 .then( res => {
                     this.displayInputMethod(res[res.length-1].id)
-                    console.log("coucou",res)
                 })
             //this.displayInputMethod(this.id);
         }
@@ -167,8 +168,13 @@ class IndexController extends BaseController{
     {
         //open modal to edit the Item
         this.item = await this.model.getItem(p_id)
+            .then(res => {
+                if (res === 401)
+                {
+                    window.location.replace("login.html")
+                }
+            })
         M.Modal.getInstance(modalDEditList).open()
-        console.log(this.item.id)
         document.getElementById("editItem_quant").value = this.item.quantity
         document.getElementById("editItem_name").value = this.item.name
         document.getElementById("editItem_submit").addEventListener("click",function(){indexController.editItem(this)}.bind(this.item.id))
@@ -176,15 +182,13 @@ class IndexController extends BaseController{
 
     editItem(p_id)
     {
-        var quant = document.getElementById("editItem_quant").value
-        var name = document.getElementById("editItem_name").value
-        console.log("MODIF !!!!", quant)
+        let quant = document.getElementById("editItem_quant").value
+        let name = document.getElementById("editItem_name").value
         //save the edited Item
         this.item.quantity = quant
         this.item.name = name
         this.model.updateItem_copy(this.item)
             .then(res => {
-                console.log("status" ,res.status)
             if (res.status === 200){
                 this.displayItems(this.item.list_id)
             }

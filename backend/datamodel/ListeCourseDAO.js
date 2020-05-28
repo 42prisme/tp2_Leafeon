@@ -17,7 +17,7 @@ module.exports = class ListeCourseDAO extends BaseDAO{
     getCurrent(user)
     {
         return new Promise((resolve, reject) => {
-            console.log("user :",user)
+            //console.log("user :",user)
             this.db.query("SELECT * FROM list where archived = False AND owner = $1",[user])
                 .then(res => resolve(res.rows))
                 .catch(e => reject(e))

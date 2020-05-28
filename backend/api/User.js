@@ -57,7 +57,7 @@ module.exports = (app, user, jwt) => {
         }
         user.validatePassword(login, password)
             .then(autheticated => {
-                console.log("auth lala ",autheticated)
+                //console.log("auth lala ",autheticated)
                 if (!autheticated) {
                     res.status(401).end()
                     return
@@ -68,6 +68,5 @@ module.exports = (app, user, jwt) => {
                 console.log(e)
                 res.status(500).end()
             })
-
     })
 }
