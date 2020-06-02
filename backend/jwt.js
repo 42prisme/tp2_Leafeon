@@ -1,6 +1,6 @@
 const jwt = require('jsonwebtoken')
 const jwtKey = '?@a-Z8W2tb]<EzqRKg,)5:{g3F^ZG_L#?]r-'
-const jwtExpirySeconds = 36
+const jwtExpirySeconds = 900
 
 module.exports = (userAccountService) => {
     return {
@@ -34,6 +34,15 @@ module.exports = (userAccountService) => {
                 algorithm: 'HS256',
                 expiresIn: jwtExpirySeconds
             })
+        },
+        getLoginJWT(req)
+        {
+            if (req.headers.authorization === undefined) {
+                //console.log("1 auth", req.headers)
+                res.status(401).end()
+                return
+            }
+            return jwt.decode(req.headers.authorization.split(" ")[1]).login
         }
     }
 }

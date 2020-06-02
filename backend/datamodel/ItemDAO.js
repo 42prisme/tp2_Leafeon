@@ -19,6 +19,13 @@ module.exports = class ItemDAO extends BaseDAO{
                 .then( res => resolve(res.rows))
                 .catch(e => reject(e)))
     }
+    getById(p_id)
+    {
+        return new Promise((resolve, reject) =>
+            this.db.query('SELECT * FROM item WHERE id=$1 ',[p_id])
+                .then(res => resolve(res.rows[0]) )
+                .catch(e => reject(e)))
+    }
     getListItems(p_id)
     {
         return new Promise((resolve, reject) => {
@@ -32,5 +39,8 @@ module.exports = class ItemDAO extends BaseDAO{
         //console.log("valid", itm.valid)
         return this.db.query("UPDATE item SET name=$2, quantity=$3, valid=$4 WHERE id=$1",[itm.id, itm.name, itm.quantity, itm.valid])
     }
-
+    deleteListItems(p_id)
+    {
+        return this.db.query('DELETE FROM item WHERE list_id=$1',[p_id])
+    }
 };

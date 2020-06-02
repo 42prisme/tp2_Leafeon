@@ -7,7 +7,6 @@ module.exports = class ListeCourseDAO extends BaseDAO{
     }
     insert(list, user)
     {
-        console.log("dao list ",list)
         list.owner = user
         return new Promise((resolve, reject) =>
             this.db.query("INSERT INTO list(id, name, owner, archived) VALUES($1, $2, $3, $4)", [list.id, list.name, list.owner, list.archived])
@@ -22,6 +21,22 @@ module.exports = class ListeCourseDAO extends BaseDAO{
                 .then(res => resolve(res.rows))
                 .catch(e => reject(e))
         })
+    }
+    getById(p_id)
+    {
+        return new Promise(((resolve, reject) => {
+            this.db.query('SELECT * FROM list WHERE id=$1 ',[p_id])
+                .then(res => resolve(res.rows[0]) )
+                .catch(e => reject(e))
+        }))
+    }
+    getOwnerById(p_id)
+    {
+        return new Promise(((resolve, reject) => {
+            this.db.query('SELECT owner FROM list WHERE id=$1 ',[p_id])
+                .then(res => resolve(res.rows[0].owner) )
+                .catch(e => reject(e))
+        }))
     }
     getArchived(user)
     {

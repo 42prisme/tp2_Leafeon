@@ -210,11 +210,8 @@ class IndexController extends BaseController{
         if(this.lastp_id === 0) return;
         this.model.deleteList(this.lastp_id)
             .then(res => {
-                if (res === 401)
-                {
-                    console.log("god is here")
-                }
-                this.displayLists()
+                //if (res === 401) console.log("god is here")
+                if (res === 200) this.displayLists()
             })
             .catch(err => {
                 if (err === 401)

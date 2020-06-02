@@ -68,18 +68,10 @@ class Model {
         return new Promise((resolve, reject) => {
             this.listapi.delete(p_id)
                 .then( re => {
-                    if (re.status === 401)
+                    if (re.status === 200)
                     {
                         resolve(re.status)
                     }
-                    this.listapi.get(p_id).then( res => {
-                        console.log(res)
-                        for (let itm of res)
-                        {
-                            this.deleteItem(itm.id, itm.list_id)
-                        }
-                        resolve(res)
-                    })
                 })
                 .catch(r => {console.log(r.status); reject(r)})
         })
