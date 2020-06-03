@@ -1,7 +1,7 @@
 class IndexController extends BaseController{
     constructor() {
         super()
-        console.log("constructor")
+        //console.log("constructor")
         this.displayLists()
         this.lastp_id;
         //archiving old current lists
@@ -150,7 +150,7 @@ class IndexController extends BaseController{
             M.toast({html:'liste inexistante'});
             return
         }
-        console.log("lst.id : ",p_lId);
+        //console.log("lst.id : ",p_lId);
         this.model.insertItem(quantity, item, p_lId)
             .then(res => {
                 if (res.status === 200){
@@ -241,7 +241,7 @@ class IndexController extends BaseController{
     }
     archive(p_id)   //archives lists
     {
-        console.log("archive")
+        //console.log("archive")
         this.model.listapi.getList(p_id)
             .catch(err => {
                 if (err === 401){
@@ -260,14 +260,12 @@ class IndexController extends BaseController{
     {
         this.model.itemapi.get(p_id)
             .then( res => {
-                console.log("res", res)
                 if (res.valid)
                 {
                     res.valid = false
                 }else{
                     res.valid = true
                 }
-                console.log("res", res)
                 this.model.itemapi.update(res)
                     .then(() => {
                         const item = document.getElementById(p_id).classList;

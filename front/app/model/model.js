@@ -12,7 +12,7 @@ class Model {
                     console.log("back to login")
                     //window.location.replace("login.html")
                 }
-                console.log("key body", res)
+                console.log("new key body", res)
                 sessionStorage.setItem("token",res)
             })
     }
@@ -60,7 +60,6 @@ class Model {
     insertItem(p_quantity, p_name, p_Lid)
     {
         const itm = new Item(p_quantity, p_name, p_Lid)
-        console.log("itm: ", itm)
         return this.itemapi.insert(itm)
      }
 
@@ -85,7 +84,6 @@ class Model {
                         resolve(re.status)
                     }
                     this.listapi.get(p_id).then( res => {
-                        console.log(res)
                         for (let itm of res)
                         {
                             this.deleteItem(itm.id, itm.list_id)

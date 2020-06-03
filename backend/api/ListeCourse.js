@@ -10,7 +10,7 @@ module.exports = (app, list, jwt) => {
     })
     //get current lists
     app.get("/list/current", jwt.validateJWT, (req, res) => {
-        //console.log("disp current :",req.user.name)
+        console.log("disp current :",req.user)
         list.dao.getCurrent(req.user.name).then( result => {
             res.json(result)
         }).catch(e => console.error(e))

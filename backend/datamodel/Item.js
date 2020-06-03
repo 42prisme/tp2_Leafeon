@@ -6,4 +6,4 @@ module.exports = class Item {
       this.quantity = quantity
       this.valid = false
   }
-};//name,quant,list_id
+};

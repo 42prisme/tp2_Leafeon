@@ -20,13 +20,23 @@ class BaseAPI {
         }).then(res => {
             if (res.status === 200) {
                 res.json().then(res => {
+                    /*console.log("reset token", res.token)
                     this.token = res.token
-                    this.headers.set("authorization", `Bearer ${this.token}`)
+                    this.headers.set("authorization", `Bearer ${this.token}`)*/
                     resolve(this.token)
                 })
             } else {
                 reject(res.status)
             }
         }).catch(err => reject(err)))
+    }
+    NewHeader()
+    {
+        this.token = sessionStorage.getItem("token")
+        console.log("token",this.token)
+        this.headers = new Headers()
+        if (this.token !== undefined) {
+            this.headers.append("authorization", `Bearer ${this.token}`)
+        }
     }
 }
