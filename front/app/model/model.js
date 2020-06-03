@@ -3,6 +3,19 @@ class Model {
         this.listapi = new Listapi()
         this.itemapi = new Itemapi()
     }
+    async renew(p_user)
+    {
+        this.listapi.renew(p_user, sessionStorage.getItem("token"))
+            .then(res => {
+                if (res === 401)
+                {
+                    console.log("back to login")
+                    //window.location.replace("login.html")
+                }
+                console.log("new key body", res)
+                sessionStorage.setItem("token",res)
+            })
+    }
     //  --- get ---
     //get current list name
     getCurrentName(){
@@ -38,7 +51,6 @@ class Model {
                     M.toast({html:'session invalid'});
                     window.location.replace("login.html");
                 }else{
-                    console.log("this lst big deal 1",res)
                     resolve(res)
                 }
             }).catch(e => reject(e))
@@ -48,7 +60,6 @@ class Model {
     insertItem(p_quantity, p_name, p_Lid)
     {
         const itm = new Item(p_quantity, p_name, p_Lid)
-        console.log("itm: ", itm)
         return this.itemapi.insert(itm)
      }
 

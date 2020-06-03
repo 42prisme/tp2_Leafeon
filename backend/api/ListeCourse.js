@@ -1,4 +1,5 @@
 const List = require('../datamodel/ListeCourse')
+const jwt = require('../jwt')
 
 module.exports = (app, list, item, jwt) => {
     //get lists
@@ -33,7 +34,6 @@ module.exports = (app, list, item, jwt) => {
         if (login !== req.user.name) return res.status(403).end()
         list.dao.getById(req.params.id, jwt.getLoginJWT(req)).then(result => {
             res.json(result)
-            console.log("good list", result)
         }).catch(e => console.error(e))
     })
     //add list
@@ -73,5 +73,10 @@ module.exports = (app, list, item, jwt) => {
                 console.log(e)
                 res.status(500).end()
             })
+    })
+    //renew token
+    app.post('/list/renewauth', jwt.validateJWT, (req, res) => {
+        console.log("the req", req.body.user)
+        res.json({'token' : jwt.generateJWT(req.body.user)})
     })
 }
