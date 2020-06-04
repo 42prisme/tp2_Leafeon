@@ -31,9 +31,9 @@ class LoginController extends BaseFormController {
     }
     createNewUser()
     {
-        let login = this.validateRequiredField('#fieldLogin', 'login')
-        let password = this.validateRequiredField('#fieldPassword', 'Mot de passe')
-        let email = this.validateRequiredField('#fieldEmail', 'e-mail')
+        let login = this.validateRequiredField('#cfieldLogin', 'login')
+        let password = this.validateRequiredField('#cfieldPassword', 'Mot de passe')
+        let email = this.validateRequiredField('#cfieldEmail', 'e-mail')
         if ((login != null) && (password != null) && this.validateEmail(email))
         {
 
