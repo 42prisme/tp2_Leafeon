@@ -167,13 +167,16 @@ class IndexController extends BaseController{
     async editItemModal(p_id)
     {
         //open modal to edit the Item
+        console.log("edit modal")
         this.item = await this.model.getItem(p_id)
-            .then(res => {
+        /*    .then(res => {
+                console.log("res", res)
                 if (res === 401)
                 {
                     window.location.replace("login.html")
                 }
-            })
+            })*/
+        console.log("skiped :: ",this.item)
         M.Modal.getInstance(modalDEditList).open()
         document.getElementById("editItem_quant").value = this.item.quantity
         document.getElementById("editItem_name").value = this.item.name
@@ -185,8 +188,10 @@ class IndexController extends BaseController{
         let quant = document.getElementById("editItem_quant").value
         let name = document.getElementById("editItem_name").value
         //save the edited Item
+        if (this.item.id !== p_id) return
         this.item.quantity = quant
         this.item.name = name
+        console.log("item", this.item)
         this.model.updateItem_copy(this.item)
             .then(res => {
             if (res.status === 200){
