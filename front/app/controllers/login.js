@@ -31,8 +31,25 @@ class LoginController extends BaseFormController {
     }
     createNewUser()
     {
+        let login = this.validateRequiredField('#fieldLogin', 'login')
+        let password = this.validateRequiredField('#fieldPassword', 'Mot de passe')
+        let email = this.validateRequiredField('#fieldEmail', 'e-mail')
+        if ((login != null) && (password != null) && this.validateEmail(email))
+        {
 
+        }
+        //if not
+        if (!this.validateEmail(email) && email != null)
+        {
+            M.toast({html:"bad email"})
+        }
     }
+
+    validateEmail(email) {
+        const re = /\S+@\S+\.\S+/;
+        return re.test(String(email).toLowerCase());
+    }
+
     addUser()
     {
         document.getElementById("submitButton").innerText = "REGISTER"

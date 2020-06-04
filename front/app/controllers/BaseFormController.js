@@ -5,7 +5,7 @@ class BaseFormController extends BaseController {
     validateRequiredField(selector, name) {
         const value =  $(selector).value
         if ((value == null) || (value === "")) {
-            this.toast(`Le champs '${name}' est obligatoire`)
+            M.toast({html:'Les champs sont obligatoire'})
             $(selector).style.backgroundColor = 'antiquewhite'
             return null
         }

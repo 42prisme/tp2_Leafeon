@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <title>Exemples NodeJS+Express</title>
+    <title>Sign-in to Leafeon</title>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
@@ -12,10 +12,10 @@
 <body>
 <nav>
     <div class="nav-wrapper green">
-        <a id="page_title" href="#" class="brand-logo" onclick="">log-in</a>
+        <a id="page_title" href="#" class="brand-logo">Sign-in</a>
         <ul id="nav-mobile" class="right hide-on-med-and-down">
-            <!--<li><a id="nwUser" class="waves-effect" onclick="">sign-up</a></li>-->
-            <li><a id="signIn" class="waves-effect" onclick="window.location.href='sign-in.html';">sign-in</a></li>
+            <!--<li><a id="signIn" class="waves-effect" onclick="">sign-in</a></li>-->
+            <li><a id="signIn" class="waves-effect" onclick="window.location.href='login.html';">I already have an account</a></li>
         </ul>
     </div>
 </nav>
@@ -36,6 +36,14 @@
                     <div class="row">
                         <div class="col s4"></div>
                         <div class="input-field col s4">
+                            <input id="fieldEmail" type="text" class="validate">
+                            <label for="fieldEmail" class="active">email</label>
+                        </div>
+                        <div class="col s4"></div>
+                    </div>
+                    <div class="row">
+                        <div class="col s4"></div>
+                        <div class="input-field col s4">
                             <input id="fieldPassword" type="password" class="validate">
                             <label for="fieldPassword" class="active">password</label>
                         </div>
@@ -43,7 +51,7 @@
                     </div>
                     <div class="row">
                         <div class="col s5"></div>
-                        <a id="submitButton" class="waves-effect waves-light btn col s2" onclick="loginController.authenticate()"><i class="material-icons right">check</i>Login</a>
+                        <a id="submitButton" class="waves-effect waves-light btn col s2" onclick="loginController.createNewUser()"><i class="material-icons right">check</i>Creat Account</a>
                         <div class="col s5"></div>
                     </div>
                 </div>
