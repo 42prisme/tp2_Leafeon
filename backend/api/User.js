@@ -1,4 +1,6 @@
 const User = require('../datamodel/User')
+const hash = require('../services/User')
+const Hash = new hash()
 
 module.exports = (app, user, jwt) => {
     //get all
@@ -6,17 +8,15 @@ module.exports = (app, user, jwt) => {
         res.json(await user.dao.getAll())
     })*/
     //insert user
-    /*app.post("/user",(req ,res) => {
-        const usr = req.body
-        console.log(usr)
-        if (!user.isValid(usr))return res.status(400).end()
-        user.dao.insert(usr)
+    app.post("/user/add",(req ,res) => {
+        if (!user.insert_validation(req.body))return res.status(400).end()
+        user.dao.insert(req.body.login, req.body.email, Hash.hashPassword(req.body.password))
             .then(res.status(200).end())
             .catch(e => {
                 console.log(e)
                 res.status(500).end()
             })
-    })*/
+    })
     //delete user
     /*app.delete("/user/id/:id", jwt.validateJWT, async (req, res) => {
         const usr = await user.dao.getById(req.params.id)

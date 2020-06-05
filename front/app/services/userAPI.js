@@ -16,4 +16,20 @@ class UserAPI extends BaseAPI {
             }
         }).catch(err => reject(err)))
     }
+    createAccount(login, email, password)
+    {
+        this.headers.set('Content-Type', 'application/x-www-form-urlencoded')
+        return new Promise((resolve, reject) => fetch(`${this.url}/add`,{
+            method: "POST",
+            headers: this.headers,
+            body: `login=${login}&password=${password}&email=${email}`
+        }).then(res => {
+            if (res.status === 200)
+            {
+                resolve(res)
+            }else{
+                reject(res.status)
+            }
+        }).catch(err => reject(err)))
+    }
 }

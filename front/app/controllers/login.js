@@ -21,7 +21,7 @@ class LoginController extends BaseFormController {
                 })
                 .catch(err => {
                     console.log(err)
-                    if (err == 401) {
+                    if (err === 401) {
                         M.toast({html:"user name or password incorrect"})
                     } else {
                         M.toast({html:'connexion problemes'})
@@ -36,7 +36,13 @@ class LoginController extends BaseFormController {
         let email = this.validateRequiredField('#cfieldEmail', 'e-mail')
         if ((login != null) && (password != null) && this.validateEmail(email))
         {
-
+            this.svc.createAccount(login, email, password).then(res => {
+                console.log(res)
+                if (res.status === 200)
+                {
+                    window.location.replace("login.html")
+                }
+            })
         }
         //if not
         if (!this.validateEmail(email) && email != null)

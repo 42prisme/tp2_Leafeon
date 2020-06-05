@@ -19,10 +19,10 @@ module.exports = class UserDAO extends BaseDAO {
                 .catch(e => reject(e)))
     }
 
-    insert(usr)
+    insert(login, email, password)
     {
         return new Promise((resolve, reject) =>
-            this.db.query("INSERT INTO users(id, name, password) VALUES( $1, $2, $3)", [usr.id, usr.name, usr.password])
+            this.db.query("INSERT INTO users(name, email, password) VALUES( $1, $2, $3)", [login, email, password])
                 .then( res => resolve(res.rows))
                 .catch(e => reject(e)))
     }
