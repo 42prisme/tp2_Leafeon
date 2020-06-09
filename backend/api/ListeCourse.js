@@ -77,6 +77,6 @@ module.exports = (app, list, item, jwt) => {
     //renew token
     app.post('/list/renewauth', jwt.validateJWT, (req, res) => {
         console.log("the req", req.body.user)
-        res.json({'token' : jwt.generateJWT(req.body.user)})
+        res.json({'token' : jwt.generateJWT(req.body.user, 900)})
     })
 }

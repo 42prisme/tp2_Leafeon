@@ -1,7 +1,7 @@
 # Don't track content of these folders
 backend/node_modules/
 backend/package-lock.json
-
+.env
 # Compiled source #
 ###################
 *.com

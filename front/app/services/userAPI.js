@@ -11,7 +11,10 @@ class UserAPI extends BaseAPI {
         }).then(res => {
             if (res.status === 200) {
                 resolve(res.json())
-            } else {
+            }
+            if (res.status === 207) {
+                resolve(207)
+            }else {
                 reject(res.status)
             }
         }).catch(err => reject(err)))

@@ -29,10 +29,10 @@ module.exports = (userAccountService) => {
 
             })
         },
-        generateJWT(login) {
+        generateJWT(login, time) {
             return jwt.sign({login}, jwtKey, {
                 algorithm: 'HS256',
-                expiresIn: jwtExpirySeconds
+                expiresIn: time
             })
         },
         getLoginJWT(req)
@@ -43,6 +43,10 @@ module.exports = (userAccountService) => {
                 return
             }
             return jwt.decode(req.headers.authorization.split(" ")[1]).login
+        },
+        getLoginJWTfromToken(req)
+        {
+            return jwt.decode(req).login
         }
     }
 }

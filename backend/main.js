@@ -7,7 +7,8 @@ const morgan = require('morgan');
 
 const listService = require("./services/ListeCourse");
 const Item = require("./services/item");
-const User = require("./services/User")
+const User = require("./services/User");
+const acStat = require("./services/acStatus")
 
 const app = express();
 app.use(bodyParser.urlencoded({ extended: false })) // URLEncoded form data
@@ -22,9 +23,10 @@ const db = new pg.Pool({connectionString: connectionString});
 const ListService = new listService(db);
 const itemService = new Item(db);
 const UserService = new User(db);
+const AcStatus = new acStat(db);
 const jwt = require('./jwt')(UserService)
 require('./api/Item')(app, ListService, itemService, jwt);
 require('./api/ListeCourse')(app, ListService, itemService, jwt);
-require('./api/User')(app, UserService, jwt);
+require('./api/User')(app, UserService, AcStatus, jwt);
 require('./datamodel/seeder')(ListService, itemService, UserService)
     .then(app.listen(3333))

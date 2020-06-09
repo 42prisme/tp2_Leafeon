@@ -18,7 +18,11 @@ module.exports = class UserService{
         const user = await this.dao.getByLogin(login.trim())
         console.log(user)
         console.log("challenge", user.password, this.hashPassword(password))
-        return this.comparePassword(password, user.password)
+        if(user.status)
+        {
+            return this.comparePassword(password, user.password)
+        }
+        return "unactivated"
     }
     comparePassword(password, hash) {
         console.log(password, hash)

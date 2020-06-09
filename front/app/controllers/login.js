@@ -15,6 +15,11 @@ class LoginController extends BaseFormController {
             this.svc.authenticate(login, password)
                 .then(res => {
                     console.log("login status", res)
+                    if (res === 207)
+                    {
+                        M.toast({html:"check you're email for the confirmation link"})
+                        return
+                    }
                     sessionStorage.setItem("token", res.token)
                     sessionStorage.setItem("username", login)
                     window.location.replace("index.html")

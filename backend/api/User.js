@@ -1,8 +1,10 @@
 const User = require('../datamodel/User')
 const hash = require('../services/User')
 const Hash = new hash()
+const mailer = require('../services/mailer')
+const Mail = new mailer()
 
-module.exports = (app, user, jwt) => {
+module.exports = (app, user, acStatus, jwt) => {
     //get all
     /*app.get("/users", jwt.validateJWT, async  (req, res) => {
         res.json(await user.dao.getAll())
@@ -10,7 +12,29 @@ module.exports = (app, user, jwt) => {
     //insert user
     app.post("/user/add",(req ,res) => {
         if (!user.insert_validation(req.body))return res.status(400).end()
-        user.dao.insert(req.body.login, req.body.email, Hash.hashPassword(req.body.password))
+        user.dao.insert(req.body.login, req.body.email, Hash.hashPassword(req.body.password), false)
+            .then(ret => {
+                //prepare activation
+                console.log("res", ret)
+                if (ret)
+                {
+                    let token = jwt.generateJWT(req.body.login, "1d")
+                    console.log("token", token)
+                    acStatus.addNewValidator(req.body.login, token)
+                    Mail.send_email(req.body.email, token)
+                    res.status(200).end()
+                }
+            })
+            .catch(e => {
+                console.log(e)
+                res.status(500).end()
+            })
+    })
+    //activate acount
+    app.get("/user/conf/:conf", async (req, res) => {
+        const login = jwt.getLoginJWTfromToken(req.params.conf)
+        console.log("login", login)
+        user.dao.activate(login)
             .then(res.status(200).end())
             .catch(e => {
                 console.log(e)
@@ -47,6 +71,7 @@ module.exports = (app, user, jwt) => {
                 res.status(500).end()
             })
     })*/
+    //connect
     app.post('/user/auth', (req, res) => {
         const { login, password } = req.body
         //console.log(req.body)
@@ -57,12 +82,16 @@ module.exports = (app, user, jwt) => {
         }
         user.validatePassword(login, password)
             .then(autheticated => {
-                //console.log("auth lala ",autheticated)
+                console.log("auth lala ",autheticated)
                 if (!autheticated) {
                     res.status(401).end()
                     return
                 }
-                res.json({'token': jwt.generateJWT(login)})
+                if (autheticated === 'unactivated')
+                {
+                    res.status(207).end()
+                }
+                res.json({'token': jwt.generateJWT(login, 900)})
             })
             .catch(e => {
                 console.log(e)
