@@ -61,6 +61,23 @@ class LoginController extends BaseFormController {
         return re.test(String(email).toLowerCase());
     }
 
+    resetPassword(login = "admin" )
+    {
+        let pswd = this.validateRequiredField('#NfieldPassword','password')
+        let Vpswd = this.validateRequiredField('#MfieldPassword','password')
+        if (pswd === Vpswd)
+        {
+            this.svc.updatePassword(login,pswd)
+                .then(res => {
+                    if (res.status === 200)
+                    {
+                        M.toast({html:"password updated"})
+                        window.location.replace("index.html")
+                    }
+                })
+        }
+    }
+
     addUser()
     {
         document.getElementById("submitButton").innerText = "REGISTER"

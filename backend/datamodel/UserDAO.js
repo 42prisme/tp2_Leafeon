@@ -40,4 +40,13 @@ module.exports = class UserDAO extends BaseDAO {
                 .catch(e => reject(e))
         })
     }
+
+    resetPassword(login, pswd)
+    {
+        return new Promise((resolve, reject) => {
+            this.db.query("UPDATE users SET password=$1 WHERE name=$2",[pswd, login])
+                .then(res => resolve(res.rows))
+                .catch(e => reject(e))
+        })
+    }
 }

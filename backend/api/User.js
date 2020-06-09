@@ -41,6 +41,15 @@ module.exports = (app, user, acStatus, jwt) => {
                 res.status(500).end()
             })
     })
+    app.post("/user/reset", jwt.validateJWT, (req, res) =>{
+        console.log("reset:",req.body)
+        user.dao.resetPassword(req.body.login, Hash.hashPassword(req.body.password))
+            .then(res.status(200).end())
+            .catch(e => {
+                console.log(e)
+                res.status(500).end()
+            })
+    })
     //delete user
     /*app.delete("/user/id/:id", jwt.validateJWT, async (req, res) => {
         const usr = await user.dao.getById(req.params.id)
