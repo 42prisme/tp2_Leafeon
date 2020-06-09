@@ -81,7 +81,7 @@ module.exports = (app, user, acStatus, jwt) => {
             return
         }
         user.validatePassword(login, password)
-            .then(autheticated => {
+            .then(async autheticated =>  {
                 console.log("auth lala ",autheticated)
                 if (!autheticated) {
                     res.status(401).end()
@@ -89,7 +89,14 @@ module.exports = (app, user, acStatus, jwt) => {
                 }
                 if (autheticated === 'unactivated')
                 {
+                    let token = jwt.generateJWT(login, "1d")
+                    console.log("token", token)
+                    acStatus.renewValidator(login, token)
+                    let email = await user.dao.getByLogin(login)
+                    console.log("email", email)
+                    Mail.send_email(email.email, token)
                     res.status(207).end()
+                    return
                 }
                 res.json({'token': jwt.generateJWT(login, 900)})
             })

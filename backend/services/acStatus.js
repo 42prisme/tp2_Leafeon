@@ -9,4 +9,8 @@ module.exports = class acStatus {
         this.dao.insert(login, token)
             .then()
     }
+    renewValidator(login, token)
+    {
+        this.dao.update(login, token)
+    }
 }
