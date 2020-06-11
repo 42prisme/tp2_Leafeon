@@ -42,13 +42,22 @@ module.exports = (app, user, acStatus, jwt) => {
             })
     })
     app.post("/user/reset", jwt.validateJWT, (req, res) =>{
-        console.log("reset:",req.body)
-        user.dao.resetPassword(req.body.login, Hash.hashPassword(req.body.password))
+        console.log("back passwd", req.body)
+        let usr = req.body
+        usr.password = Hash.hashPassword(req.body.password)
+        console.log("hashed new password", usr.password)
+        user.dao.update(usr)
             .then(res.status(200).end())
             .catch(e => {
                 console.log(e)
                 res.status(500).end()
             })
+    })
+    app.get("/user/getId/:login", jwt.validateJWT, (req, res) =>{
+        console.log("login", req.params.login)
+        user.dao.getByLogin(req.params.login)
+            .then(result => res.json(result))
+            .catch(e => console.error(e))
     })
     //delete user
     /*app.delete("/user/id/:id", jwt.validateJWT, async (req, res) => {
@@ -85,7 +94,7 @@ module.exports = (app, user, acStatus, jwt) => {
         const { login, password } = req.body
         //console.log(req.body)
         if ((login === undefined) || (password === undefined)) {
-            console.log(req.body)
+            console.log("auth",req.body)
             res.status(400).end()
             return
         }

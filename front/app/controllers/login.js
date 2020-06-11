@@ -1,7 +1,7 @@
 class LoginController extends BaseFormController {
     constructor() {
         super(false)
-        this.svc = new UserAPI()
+        this.svc = new Userapi()
     }
     async authenticate() {
         if (document.getElementById("submitButton").innerText === "REGISTER")
@@ -59,23 +59,6 @@ class LoginController extends BaseFormController {
     validateEmail(email) {
         const re = /\S+@\S+\.\S+/;
         return re.test(String(email).toLowerCase());
-    }
-
-    resetPassword(login = "admin" )
-    {
-        let pswd = this.validateRequiredField('#NfieldPassword','password')
-        let Vpswd = this.validateRequiredField('#MfieldPassword','password')
-        if (pswd === Vpswd)
-        {
-            this.svc.updatePassword(login,pswd)
-                .then(res => {
-                    if (res.status === 200)
-                    {
-                        M.toast({html:"password updated"})
-                        window.location.replace("index.html")
-                    }
-                })
-        }
     }
 
     addUser()

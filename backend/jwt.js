@@ -5,7 +5,7 @@ const jwtExpirySeconds = 900
 module.exports = (userAccountService) => {
     return {
         validateJWT(req, res, next) {
-            console.log("header auth :", req.headers.authorization)
+            //console.log("header auth :", req.headers.authorization)
             if (req.headers.authorization === undefined) {
                 //console.log("1 auth", req.headers)
                 res.status(401).end()

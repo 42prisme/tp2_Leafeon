@@ -2,6 +2,7 @@ class Model {
     constructor() {
         this.listapi = new Listapi()
         this.itemapi = new Itemapi()
+        this.userapi = new Userapi()    //not included from where??
     }
     async renew(p_user)
     {
@@ -63,13 +64,13 @@ class Model {
         return this.itemapi.insert(itm)
      }
 
-     updateItem(p_quantity, p_name, p_Lid)
-     {
-         const itm = new Item(p_quantity, p_name, p_Lid)
-         return this.itemapi.update(itm)
-     }
+    updateItem(p_quantity, p_name, p_Lid)
+    {
+        const itm = new Item(p_quantity, p_name, p_Lid)
+        return this.itemapi.update(itm)
+    }
 
-     updateItem_copy(item)
+    updateItem_copy(item)
      {
         return this.itemapi.update(item)
      }
@@ -95,6 +96,31 @@ class Model {
                     resolve(res)
                 })
                 .catch( r => reject(r))
+        })
+    }
+    getUser()
+    {
+        const login = sessionStorage.getItem("username")
+        return new Promise((resolve, reject) => {
+            this.userapi.getUser(login)
+                .then(res => resolve(res))
+                .catch(r => reject(r))
+        })
+    }
+    updateUser(p_user)
+    {
+        const user = new User(p_user)
+        console.log("model", user)
+        return new Promise((resolve, reject) => {
+            this.userapi.updateUser(user)
+                .then(res => {
+                    if (res.status === 200)
+                    {
+                        M.toast({html:"password updated"})
+                        window.location.replace("index.html")
+                    }
+                })
+                .catch(e => reject(e))
         })
     }
 }

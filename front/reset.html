@@ -16,6 +16,7 @@
         <ul id="nav-mobile" class="right hide-on-med-and-down">
             <!--<li><a id="nwUser" class="waves-effect" onclick="">sign-up</a></li>-->
             <li><a id="signIn" class="waves-effect" onclick="window.location.href='sign-in.html';">sign-in</a></li>
+            <li><a id="displist" class="waves-effect" onclick="indexController.displayLists()">Liste</a></li>
         </ul>
     </div>
 </nav>
@@ -28,7 +29,23 @@
                     <div class="row">
                         <div class="col s4"></div>
                         <div class="input-field col s4">
-                            <input id="NfieldPassword" type="text" class="validate">
+                            <input id="fieldlogin" type="text" class="validate">
+                            <label for="fieldlogin" class="active">login</label>
+                        </div>
+                        <div class="col s4"></div>
+                    </div>
+                    <div class="row">
+                        <div class="col s4"></div>
+                        <div class="input-field col s4">
+                            <input id="fieldemail" type="text" class="validate">
+                            <label for="fieldemail" class="active">email</label>
+                        </div>
+                        <div class="col s4"></div>
+                    </div>
+                    <div class="row">
+                        <div class="col s4"></div>
+                        <div class="input-field col s4">
+                            <input id="NfieldPassword" type="password" class="validate">
                             <label for="NfieldPassword" class="active">password</label>
                         </div>
                         <div class="col s4"></div>
@@ -43,7 +60,7 @@
                     </div>
                     <div class="row">
                         <div class="col s5"></div>
-                        <a id="submitButton" class="waves-effect waves-light btn col s2" onclick="loginController.resetPassword('admin')"><i class="material-icons right">check</i>reset</a>
+                        <a id="submitButton" class="waves-effect waves-light btn col s2"><i class="material-icons right">check</i>reset</a>
                         <div class="col s5"></div>
                     </div>
                 </div>
@@ -55,13 +72,14 @@
 <script type="application/ecmascript" src="app/tools.js"></script>
 <script type="application/ecmascript" src="app/model/item.js"></script>
 <script type="application/ecmascript" src="app/model/list.js"></script>
+<script type="application/ecmascript" src="app/model/user.js"></script>
 <script type="application/ecmascript" src="app/model/model.js"></script>
 <script type="application/ecmascript" src="app/services/baseapi.js"></script>
 <script type="application/ecmascript" src="app/services/itemapi.js"></script>
 <script type="application/ecmascript" src="app/services/listapi.js"></script>
-<script type="application/ecmascript" src="app/services/userAPI.js"></script>
+<script type="application/ecmascript" src="app/services/userapi.js"></script>
 <script type="application/ecmascript" src="app/controllers/basecontroller.js"></script>
 <script type="application/ecmascript" src="app/controllers/BaseFormController.js"></script>
-<script type="application/ecmascript" src="app/controllers/login.js"></script>
+<script type="application/ecmascript" src="app/controllers/reset.js"></script>
 </body>
 </html>

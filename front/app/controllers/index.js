@@ -50,8 +50,12 @@ class IndexController extends BaseController{
     displayLists()
     {
         this.model.renew(sessionStorage.getItem("username"))
-        document.getElementById("title").innerHTML = `<h5>Listes de courses</h5>`
-        document.getElementById("list_add").innerHTML = ""
+        //document.getElementById("title").innerHTML = `<h5>Listes de courses</h5>`
+        try{
+            document.getElementById("list_add").innerHTML = ""
+        }catch (e) {
+            console.log(e)
+        }
         console.log("mark1")
         this.model.getLists()
             .then( res => {
@@ -288,6 +292,11 @@ class IndexController extends BaseController{
             }
         })
     }
+    displayEdit()
+    {
+        this.model.renew(sessionStorage.getItem("username"))
+        window.location.replace("reset.html")
+    }
 }
-
+//document.getElementById("editItem_submit").addEventListener("click",function(){indexController.editItem(this)}.bind(this.item.id))
 window.indexController = new IndexController();

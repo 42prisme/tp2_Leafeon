@@ -1,4 +1,4 @@
-class UserAPI extends BaseAPI {
+class Userapi extends BaseAPI {
     constructor() {
         super("user")
     }
@@ -35,13 +35,16 @@ class UserAPI extends BaseAPI {
             }
         }).catch(err => reject(err)))
     }
-    updatePassword(login, password)
+    //`id=${user.id}&name=${user.name}&email=${user.email}&password=${user.email}&status=${user.email}`
+    updateUser(user)
     {
-        this.headers.set('Content-Type', 'application/x-www-form-urlencoded')
+        console.log("user",user)
+        this.NewHeader()
+        this.headers.set("Content-Type", `application/json`)
         return new Promise((resolve, reject) => fetch(`${this.url}/reset`,{
             method: "POST",
             headers: this.headers,
-            body: `login=${login}&password=${password}`
+            body: JSON.stringify(user)
         }).then(res => {
             if (res.status === 200)
             {
@@ -51,5 +54,11 @@ class UserAPI extends BaseAPI {
                 reject(res.status)
             }
         }).catch(err => reject(err)))
+    }
+    getUser(login)
+    {
+        this.NewHeader()
+        this.headers.set('Content-Type', 'application/x-www-form-urlencoded')
+        return fetchJSON(`${this.url}/getId/${login}`, this.token)
     }
 }
